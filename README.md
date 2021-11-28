@@ -13,7 +13,8 @@ Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 
 Filters of this napari plugin can be found in the `Tools > Filtering` menu. 
 Segmentation algorithms and tools for post-processing segmented (binary or label) images can be 
-found in the `Tools > Segmentation` menu.
+found in the `Tools > Segmentation` menu. All filers implemented in this napari plugin are also 
+demonstrated in [this notebook](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/demo.ipynb).
 
 ### Gaussian blur
 
@@ -29,6 +30,13 @@ Compared to the Gaussian blur this method preserves edges in the image better.
 It also performs slower.
 
 ![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/median_filter.png)
+
+### Bilateral filter
+
+The [bilateral filter](https://en.wikipedia.org/wiki/Bilateral_filter) allows denoising an image
+while preserving edges.
+
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/bilateral.png)
 
 ### Threshold Otsu
 
@@ -84,6 +92,14 @@ This implementation is similar to [Voronoi-Otsu-Labeling in clesperanto](https:/
 
 
 ![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/watershed_otsu_labeling.png)
+
+### Richardson-Lucy Deconvolution
+
+[Richardson-Lucy deconvolution](https://en.wikipedia.org/wiki/Richardson%E2%80%93Lucy_deconvolution)
+allows to restore image quality if the point-spread-function of the optical system used 
+for acquisition is known or can be approximated.
+
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/Richardson-Lucy-Deconvolution.png)
 
 ----------------------------------
 

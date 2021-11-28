@@ -35,8 +35,9 @@ def plugin_function(
             np_value = None
             if isinstance(value, np.ndarray):
                 np_value = value
-            elif 'pyclesperanto_prototype._tier0._pycl.OCLArray' in str(type(value)):
-                # compatibility with pyclesperanto
+            elif 'pyclesperanto_prototype._tier0._pycl.OCLArray' in str(type(value)) or \
+                'dask.array.core.Array' in str(type(value)):
+                # compatibility with pyclesperanto and dask
                 np_value = np.asarray(value)
 
             if convert_input_to_float and np_value is not None:
@@ -171,3 +172,134 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
     labels = sitk.Mask(ws, sitk.Cast(binary_otsu, ws.GetPixelID()))
 
     return labels
+
+
+@register_function(menu="Filtering > Bilateral (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.Bilateral(image, radius)
+
+
+@register_function(menu="Filtering > Laplacian (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.Laplacian(image)
+
+
+@register_function(menu="Filtering > Laplacian of Gaussian (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.LaplacianRecursiveGaussian(image, sigma=sigma)
+
+
+@register_function(menu="Filtering > Binominal blur (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.BinomialBlur(image, repetitions)
+
+@register_function(menu="Segmentation > Canny edge detection (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 0, upper_threshold: float = 50, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    return sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold)
+
+
+@register_function(menu="Filtering > Gradient magnitude (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.GradientMagnitude(image)
+
+
+@register_function(menu="Filtering > H-Maxima (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def h_maxima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.HMaxima(image, height=height)
+
+
+@register_function(menu="Filtering > H-Minima (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def h_minima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.HMinima(image, height=height)
+
+
+@register_function(menu="Segmentation > Threshold Otsu, multiple thresholds (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def otsu_multiple_thresholds(image:napari.types.ImageData,
+                             number_of_thresholds: int = 3,
+                             label_offset: int = 0,
+                             number_of_histogram_bins: int = 256,
+                             viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    return sitk.OtsuMultipleThresholds(image, numberOfThresholds=number_of_thresholds,
+                                       labelOffset=label_offset,
+                                       numberOfHistogramBins=number_of_histogram_bins)
+
+@register_function(menu="Segmentation > Regional maxima (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.RegionalMaxima(image)
+
+
+@register_function(menu="Segmentation > Regional minima (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.RegionalMinima(image)
+
+
+@register_function(menu="Filtering > Richardson-Lucy deconvolution (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, number_of_iterations: int = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.RichardsonLucyDeconvolution(image, kernel, number_of_iterations)
+
+
+@register_function(menu="Filtering > Wiener deconvolution (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, noise_variance: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.WienerDeconvolution(image, kernel, noise_variance)
+
+
+@register_function(menu="Filtering > Tikhonov deconvolution (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, regularization_constant: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.TikhonovDeconvolution(image, kernel, regularization_constant)
+
+
+@register_function(menu="Filtering > Rescale intensity (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, output_maximum: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.RescaleIntensity(image, outputMinimum=output_minimum, outputMaximum=output_maximum)
+
+
+@register_function(menu="Filtering > Sobel (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.SobelEdgeDetection(image)
+
+
+@register_function(menu="Filtering > White top-hat (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.WhiteTopHat(image, [radius_x, radius_y, radius_z])
+
+
+@register_function(menu="Filtering > Black top-hat (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    return sitk.BlackTopHat(image, [radius_x, radius_y, radius_z])
+
