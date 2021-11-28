@@ -13,7 +13,8 @@ import SimpleITK as sitk
 
 @curry
 def plugin_function(
-        function: Callable
+        function: Callable,
+        convert_input_to_float: bool = False
 ) -> Callable:
     # copied from https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/pyclesperanto_prototype/_tier0/_plugin_function.py
     @wraps(function)
@@ -31,11 +32,18 @@ def plugin_function(
 
         # copy images to SimpleITK-types, and create output array if necessary
         for key, value in bound.arguments.items():
+            np_value = None
             if isinstance(value, np.ndarray):
-                bound.arguments[key] = sitk.GetImageFromArray(value)
+                np_value = value
             elif 'pyclesperanto_prototype._tier0._pycl.OCLArray' in str(type(value)):
                 # compatibility with pyclesperanto
-                bound.arguments[key] = sitk.GetImageFromArray(np.asarray(value))
+                np_value = np.asarray(value)
+
+            if convert_input_to_float and np_value is not None:
+                np_value = np_value.astype(float)
+
+            if np_value is not None:
+                bound.arguments[key] = sitk.GetImageFromArray(np_value)
 
         # call the decorated function
         result = function(*bound.args, **bound.kwargs)
