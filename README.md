@@ -1,4 +1,4 @@
-# napari-simpleitk-image-processing
+# napari-simpleitk-image-processing (n-SimpleITK)
 
 [![License](https://img.shields.io/pypi/l/napari-simpleitk-image-processing.svg?color=green)](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/napari-simpleitk-image-processing.svg?color=green)](https://pypi.org/project/napari-simpleitk-image-processing)
