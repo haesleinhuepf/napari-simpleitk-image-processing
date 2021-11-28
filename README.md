@@ -9,17 +9,86 @@
 
 Process images using SimpleITK in napari
 
+## Usage
+
+Filters of this napari plugin can be found in the `Tools > Filtering` menu. 
+Segmentation algorithms and tools for post-processing segmented (binary or label) images can be 
+found in the `Tools > Segmentation` menu.
+
+### Gaussian blur
+
+Applies a [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur)
+to an image. This might be useful for denoising, e.g. before applying the Threshold-Otsu method.
+
+![img.png](docs/gaussian_blur.png)
+
+### Median filter
+
+Applies a [median filter](https://en.wikipedia.org/wiki/Median_filter) to an image. 
+Compared to the Gaussian blur this method preserves edges in the image better. 
+It also performs slower.
+
+![img.png](docs/median_filter.png)
+
+### Threshold Otsu
+
+Binarizes an image using [Otsu's method](https://ieeexplore.ieee.org/document/4310076).
+
+![img.png](docs/threshold_otsu.png)
+
+### Connected Component Labeling
+
+Takes a binary image and labels all objects with individual numbers to produce a label image.
+
+![img.png](docs/connected_component_labeling.png)
+
+### Signed Maurer distance map
+
+A distance map (more precise: [Signed Maurer Distance Map](https://itk.org/ITKExamples/src/Filtering/DistanceMap/MaurerDistanceMapOfBinary/Documentation.html)) can be useful for visualizing distances within binary images between black/white borders. 
+Positive values in this image correspond to a white (value=1) pixel's distance to the next black pixel.
+Black pixel's (value=0) distance to the next white pixel are represented in this map with negative values.
+
+![img.png](signed_maured_distance_map.png)
+
+### Binary fill holes
+
+Fills holes in a binary image.
+
+![img.png](docs/binary_fill_holes.png)
+
+### Touching objects labeling
+
+Starting from a binary image, touching objects can be splits into multiple regions, similar to the [Watershed segmentation in ImageJ](https://imagej.net/plugins/classic-watershed).
+
+![img.png](docs/Touching_object_labeling.png)
+
+### Morphological Watershed
+
+The [morhological watershed](http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html)
+allows to segment images showing membranes. Before segmentation, a filter such as the Gaussian blur or a median filter
+should be used to eliminate noise. It also makes sense to increase the thickness of membranes using a maximum filter. 
+See [this notebook](https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/demo/segmentation/segmentation_2d_membranes.ipynb) for details.
+
+![img.png](docs/morphological_watershed.png)
+
+### Watershed-Otsu-Labeling
+
+This algorithm uses [Otsu's thresholding method](https://ieeexplore.ieee.org/document/4310076) in combination with 
+[Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur) and the 
+[Watershed-algorithm](https://en.wikipedia.org/wiki/Watershed_(image_processing)) 
+approach to label bright objects such as nuclei in an intensity image. The alogrithm has two sigma parameters and a 
+level parameter which allow you to fine-tune where objects should be cut (`spot_sigma`) and how smooth outlines 
+should be (`outline_sigma`). The `watershed_level` parameter determines how deep an intensity valley between two maxima 
+has to be to differentiate the two maxima. 
+This implementation is similar to [Voronoi-Otsu-Labeling in clesperanto](https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/demo/segmentation/voronoi_otsu_labeling.ipynb).
+
+
+![img.png](docs/watershed_otsu_labeling.png)
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
 
-<!--
-Don't miss the full getting started guide to set up your new package:
-https://github.com/napari/cookiecutter-napari-plugin#getting-started
-
-and review the napari docs for plugin developers:
-https://napari.org/docs/plugins/index.html
--->
 
 ## Installation
 
@@ -36,8 +105,11 @@ To install latest development version :
 
 ## Contributing
 
-Contributions are very welcome. Tests can be run with [tox], please ensure
-the coverage at least stays the same before you submit a pull request.
+Contributions are very welcome. There are many useful algorithms available in 
+[SimpleITK](https://simpleitk.org/). If you want another one available here in this napari
+plugin, don't hesitate to send a [pull-request](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/pulls).
+This repository just holds wrappers for SimpleITK-functions, see [this file]() for how those wrappers
+can be written.
 
 ## License
 
