@@ -20,7 +20,7 @@ found in the `Tools > Segmentation` menu.
 Applies a [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur)
 to an image. This might be useful for denoising, e.g. before applying the Threshold-Otsu method.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/gaussian_blur.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/gaussian_blur.png)
 
 ### Median filter
 
@@ -28,19 +28,19 @@ Applies a [median filter](https://en.wikipedia.org/wiki/Median_filter) to an ima
 Compared to the Gaussian blur this method preserves edges in the image better. 
 It also performs slower.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/median_filter.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/median_filter.png)
 
 ### Threshold Otsu
 
 Binarizes an image using [Otsu's method](https://ieeexplore.ieee.org/document/4310076).
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/threshold_otsu.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/threshold_otsu.png)
 
 ### Connected Component Labeling
 
 Takes a binary image and labels all objects with individual numbers to produce a label image.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/connected_component_labeling.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/connected_component_labeling.png)
 
 ### Signed Maurer distance map
 
@@ -54,13 +54,13 @@ Black pixel's (value=0) distance to the next white pixel are represented in this
 
 Fills holes in a binary image.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/binary_fill_holes.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/binary_fill_holes.png)
 
 ### Touching objects labeling
 
 Starting from a binary image, touching objects can be splits into multiple regions, similar to the [Watershed segmentation in ImageJ](https://imagej.net/plugins/classic-watershed).
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/Touching_object_labeling.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/Touching_object_labeling.png)
 
 ### Morphological Watershed
 
@@ -69,7 +69,7 @@ allows to segment images showing membranes. Before segmentation, a filter such a
 should be used to eliminate noise. It also makes sense to increase the thickness of membranes using a maximum filter. 
 See [this notebook](https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/demo/segmentation/segmentation_2d_membranes.ipynb) for details.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/morphological_watershed.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/morphological_watershed.png)
 
 ### Watershed-Otsu-Labeling
 
@@ -83,7 +83,7 @@ has to be to differentiate the two maxima.
 This implementation is similar to [Voronoi-Otsu-Labeling in clesperanto](https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/demo/segmentation/voronoi_otsu_labeling.ipynb).
 
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/watershed_otsu_labeling.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/watershed_otsu_labeling.png)
 
 ----------------------------------
 
@@ -108,7 +108,7 @@ To install latest development version :
 Contributions are very welcome. There are many useful algorithms available in 
 [SimpleITK](https://simpleitk.org/). If you want another one available here in this napari
 plugin, don't hesitate to send a [pull-request](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/pulls).
-This repository just holds wrappers for SimpleITK-functions, see [this file](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/src/napari_simpleitk_image_processing/_simpleitk_image_processing.py#L51) for how those wrappers
+This repository just holds wrappers for SimpleITK-functions, see [this file](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/src/napari_simpleitk_image_processing/_simpleitk_image_processing.py#L51) for how those wrappers
 can be written.
 
 ## License
