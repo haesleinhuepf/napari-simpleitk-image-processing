@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/haesleinhuepf/napari-simpleitk-image-processing/branch/main/graph/badge.svg)](https://codecov.io/gh/haesleinhuepf/napari-simpleitk-image-processing)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-simpleitk-image-processing)](https://napari-hub.org/plugins/napari-simpleitk-image-processing)
 
-Process images using SimpleITK in napari
+Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 
 ## Usage
 
