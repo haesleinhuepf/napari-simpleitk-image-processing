@@ -201,7 +201,7 @@ def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, 
 def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.BinomialBlur(image, repetitions)
 
-@register_function(menu="Segmentation / edge enhancement > Canny edge detection (n-SimpleITK)")
+@register_function(menu="Segmentation / binarization > Canny edge detection (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 0, upper_threshold: float = 50, viewer: napari.Viewer = None) -> napari.types.LabelsData:
