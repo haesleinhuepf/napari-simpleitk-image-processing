@@ -58,7 +58,7 @@ def plugin_function(
 
 
 
-@register_function(menu="Filtering > Median (n-SimpleITK)")
+@register_function(menu="Filtering / noise removal > Median (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int = 1, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
@@ -66,7 +66,7 @@ def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int
     return sitk.Median(image, [radius_x, radius_y, radius_z])
 
 
-@register_function(menu="Filtering > Gaussian (n-SimpleITK)")
+@register_function(menu="Filtering / noise removal > Gaussian (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_y: float = 1, variance_z: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
@@ -74,14 +74,14 @@ def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_
     return sitk.DiscreteGaussian(image, variance=[variance_x, variance_y, variance_z])
 
 
-@register_function(menu="Segmentation > Threshold (Otsu et al 1979, n-SimpleITK)")
+@register_function(menu="Segmentation / binarization > Threshold (Otsu et al 1979, n-SimpleITK)")
 @time_slicer
 @plugin_function
 def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
     
     return sitk.OtsuThreshold(image,0,1)
 
-@register_function(menu="Segmentation > Binary fill holes (n-SimpleITK)")
+@register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def binary_fill_holes(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
@@ -89,7 +89,7 @@ def binary_fill_holes(binary_image:napari.types.LabelsData, viewer: napari.Viewe
     return sitk.BinaryFillhole(binary_image)
 
 
-@register_function(menu="Segmentation > Signed Maurer Distance Map (n-SimpleITK)")
+@register_function(menu="Measurement > Signed Maurer Distance Map (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def signed_maurer_distance_map(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
@@ -102,7 +102,7 @@ def signed_maurer_distance_map(binary_image:napari.types.LabelsData, viewer: nap
     return sitk.SignedMaurerDistanceMap(binary_image, insideIsPositive=True, squaredDistance=False, useImageSpacing=False)
 
 
-@register_function(menu="Segmentation > Morphological watershed (n-SimpleITK)")
+@register_function(menu="Segmentation / labeling > Morphological watershed (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def morphological_watershed(distance_image:napari.types.ImageData, level:float = 1, viewer: napari.Viewer = None) -> napari.types.LabelsData:
@@ -115,7 +115,7 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
     return sitk.MorphologicalWatershed( distance_image, markWatershedLine=False, level=level)
 
 
-@register_function(menu="Segmentation > Connected component labeling (n-SimpleITK)")
+@register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def connected_component_labeling(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
@@ -123,7 +123,7 @@ def connected_component_labeling(binary_image:napari.types.LabelsData, viewer: n
     return sitk.ConnectedComponent(binary_image)
 
 
-@register_function(menu="Segmentation > Touching objects labeling (n-SimpleITK)")
+@register_function(menu="Segmentation / labeling > Touching objects labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def touching_objects_labeling(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
@@ -143,7 +143,7 @@ def touching_objects_labeling(binary_image:napari.types.LabelsData, viewer: napa
     return labels
 
 
-@register_function(menu="Segmentation > Watershed Otsu labeling (n-SimpleITK)")
+@register_function(menu="Segmentation / labeling > Watershed Otsu labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2, outline_sigma: float = 2, watershed_level:float = 10, viewer: napari.Viewer = None) -> napari.types.LabelsData:
@@ -174,41 +174,41 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
     return labels
 
 
-@register_function(menu="Filtering > Bilateral (n-SimpleITK)")
+@register_function(menu="Filtering / noise removal > Bilateral (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.Bilateral(image, radius)
 
 
-@register_function(menu="Filtering > Laplacian (n-SimpleITK)")
+@register_function(menu="Filtering / edge enhancement > Laplacian (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.Laplacian(image)
 
 
-@register_function(menu="Filtering > Laplacian of Gaussian (n-SimpleITK)")
+@register_function(menu="Filtering / edge enhancement > Laplacian of Gaussian (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.LaplacianRecursiveGaussian(image, sigma=sigma)
 
 
-@register_function(menu="Filtering > Binominal blur (n-SimpleITK)")
+@register_function(menu="Filtering / noise removal > Binominal blur (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.BinomialBlur(image, repetitions)
 
-@register_function(menu="Segmentation > Canny edge detection (n-SimpleITK)")
+@register_function(menu="Segmentation / edge enhancement > Canny edge detection (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 0, upper_threshold: float = 50, viewer: napari.Viewer = None) -> napari.types.LabelsData:
     return sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold)
 
 
-@register_function(menu="Filtering > Gradient magnitude (n-SimpleITK)")
+@register_function(menu="Filtering / edge enhancement > Gradient magnitude (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
@@ -229,7 +229,7 @@ def h_minima(image:napari.types.ImageData, height: float = 10, viewer: napari.Vi
     return sitk.HMinima(image, height=height)
 
 
-@register_function(menu="Segmentation > Threshold Otsu, multiple thresholds (n-SimpleITK)")
+@register_function(menu="Segmentation / binarization > Threshold Otsu, multiple thresholds (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def otsu_multiple_thresholds(image:napari.types.ImageData,
@@ -241,35 +241,35 @@ def otsu_multiple_thresholds(image:napari.types.ImageData,
                                        labelOffset=label_offset,
                                        numberOfHistogramBins=number_of_histogram_bins)
 
-@register_function(menu="Segmentation > Regional maxima (n-SimpleITK)")
+@register_function(menu="Segmentation / binarization > Regional maxima (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.RegionalMaxima(image)
 
 
-@register_function(menu="Segmentation > Regional minima (n-SimpleITK)")
+@register_function(menu="Segmentation / binarization > Regional minima (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.RegionalMinima(image)
 
 
-@register_function(menu="Filtering > Richardson-Lucy deconvolution (n-SimpleITK)")
+@register_function(menu="Filtering / deconvolution > Richardson-Lucy deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, number_of_iterations: int = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.RichardsonLucyDeconvolution(image, kernel, number_of_iterations)
 
 
-@register_function(menu="Filtering > Wiener deconvolution (n-SimpleITK)")
+@register_function(menu="Filtering / deconvolution > Wiener deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, noise_variance: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.WienerDeconvolution(image, kernel, noise_variance)
 
 
-@register_function(menu="Filtering > Tikhonov deconvolution (n-SimpleITK)")
+@register_function(menu="Filtering / deconvolution > Tikhonov deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, regularization_constant: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
@@ -283,21 +283,21 @@ def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, o
     return sitk.RescaleIntensity(image, outputMinimum=output_minimum, outputMaximum=output_maximum)
 
 
-@register_function(menu="Filtering > Sobel (n-SimpleITK)")
+@register_function(menu="Filtering / edge enhancement > Sobel (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.SobelEdgeDetection(image)
 
 
-@register_function(menu="Filtering > White top-hat (n-SimpleITK)")
+@register_function(menu="Filtering / background removal > White top-hat (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
     return sitk.WhiteTopHat(image, [radius_x, radius_y, radius_z])
 
 
-@register_function(menu="Filtering > Black top-hat (n-SimpleITK)")
+@register_function(menu="Filtering / background removal > Black top-hat (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:

@@ -13,7 +13,7 @@ Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 
 Filters of this napari plugin can be found in the `Tools > Filtering` menu. 
 Segmentation algorithms and tools for post-processing segmented (binary or label) images can be 
-found in the `Tools > Segmentation` menu. All filters implemented in this napari plugin are also 
+found in the `Tools > Segmentation` menus. All filters implemented in this napari plugin are also 
 demonstrated in [this notebook](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/demo.ipynb).
 
 ### Gaussian blur
