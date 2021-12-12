@@ -44,6 +44,8 @@ def plugin_function(
                 np_value = np_value.astype(float)
 
             if np_value is not None:
+                if np_value.dtype == bool:
+                    np_value = np_value * 1
                 bound.arguments[key] = sitk.GetImageFromArray(np_value)
 
         # call the decorated function
@@ -53,6 +55,8 @@ def plugin_function(
             return sitk.GetArrayFromImage(result)
         else:
             return result
+
+    worker_function.__module__ = "napari_simpleitk_image_processing"
 
     return worker_function
 
