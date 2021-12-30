@@ -353,6 +353,7 @@ def label_statistics(
     See Also
     --------
     ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1LabelShapeStatisticsImageFilter
+    ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
 

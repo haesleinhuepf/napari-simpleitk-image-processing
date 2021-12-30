@@ -134,6 +134,16 @@ can be written.
 Distributed under the terms of the [BSD-3] license,
 "napari-simpleitk-image-processing" is free and open source software
 
+## Citation
+
+For implementing this napari plugin, the 
+[SimpleITK python notebooks](https://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/) were very helpful. 
+Thus, if you find the plugin useful, consider citing the SimpleITK notebooks:
+
+Z. Yaniv, B. C. Lowekamp, H. J. Johnson, R. Beare, 
+"SimpleITK Image-Analysis Notebooks: a Collaborative Environment for Education and Reproducible Research", \
+J Digit Imaging., 31(3): 290-303, 2018, [https://doi.org/10.1007/s10278-017-0037-8](https://doi.org/10.1007/s10278-017-0037-8).
+
 ## Issues
 
 If you encounter any problems, please [file an issue] along with a detailed description.
