@@ -52,13 +52,19 @@ Takes a binary image and labels all objects with individual numbers to produce a
 
 ![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/connected_component_labeling.png)
 
+### Measurements
+
+This function allows determining intensity and shape statistics from labeled images.
+
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/measurements.png)
+
 ### Signed Maurer distance map
 
 A distance map (more precise: [Signed Maurer Distance Map](https://itk.org/ITKExamples/src/Filtering/DistanceMap/MaurerDistanceMapOfBinary/Documentation.html)) can be useful for visualizing distances within binary images between black/white borders. 
 Positive values in this image correspond to a white (value=1) pixel's distance to the next black pixel.
 Black pixel's (value=0) distance to the next white pixel are represented in this map with negative values.
 
-![img.png](signed_maured_distance_map.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/docs/signed_maured_distance_map.png)
 
 ### Binary fill holes
 
