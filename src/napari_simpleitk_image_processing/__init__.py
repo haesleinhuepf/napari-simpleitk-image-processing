@@ -6,7 +6,9 @@ __common_alias__ = "nsitk"
 
 
 from ._function import napari_experimental_provide_function
-from ._simpleitk_image_processing import median_filter, \
+from ._simpleitk_image_processing import \
+    plugin_function, \
+    median_filter, \
     gaussian_blur, \
     threshold_otsu, \
     signed_maurer_distance_map, \
@@ -32,4 +34,6 @@ from ._simpleitk_image_processing import median_filter, \
     rescale_intensity, \
     sobel, \
     black_top_hat, \
-    white_top_hat
+    white_top_hat, \
+    relabel_component, \
+    label_statistics

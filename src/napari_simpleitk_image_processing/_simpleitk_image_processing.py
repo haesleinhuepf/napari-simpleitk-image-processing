@@ -9,7 +9,6 @@ import numpy as np
 import napari
 from napari_tools_menu import register_function
 from napari_time_slicer import time_slicer
-import SimpleITK as sitk
 
 @curry
 def plugin_function(
@@ -19,6 +18,8 @@ def plugin_function(
     # copied from https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/pyclesperanto_prototype/_tier0/_plugin_function.py
     @wraps(function)
     def worker_function(*args, **kwargs):
+        import SimpleITK as sitk
+
         sig = inspect.signature(function)
         # create mapping from position and keyword arguments to parameters
         # will raise a TypeError if the provided arguments do not match the signature
@@ -66,7 +67,7 @@ def plugin_function(
 @time_slicer
 @plugin_function
 def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int = 1, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
-    
+    import SimpleITK as sitk
     return sitk.Median(image, [radius_x, radius_y, radius_z])
 
 
@@ -74,7 +75,7 @@ def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int
 @time_slicer
 @plugin_function
 def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_y: float = 1, variance_z: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
-    
+    import SimpleITK as sitk
     return sitk.DiscreteGaussian(image, variance=[variance_x, variance_y, variance_z])
 
 
@@ -82,14 +83,14 @@ def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_
 @time_slicer
 @plugin_function
 def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
-    
+    import SimpleITK as sitk
     return sitk.OtsuThreshold(image,0,1)
 
 @register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def binary_fill_holes(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
-    
+    import SimpleITK as sitk
     return sitk.BinaryFillhole(binary_image)
 
 
@@ -102,7 +103,7 @@ def signed_maurer_distance_map(binary_image:napari.types.LabelsData, viewer: nap
     --------
     ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html
     """
-    
+    import SimpleITK as sitk
     return sitk.SignedMaurerDistanceMap(binary_image, insideIsPositive=True, squaredDistance=False, useImageSpacing=False)
 
 
@@ -115,7 +116,7 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
     --------
     ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html
     """
-    
+    import SimpleITK as sitk
     return sitk.MorphologicalWatershed( distance_image, markWatershedLine=False, level=level)
 
 
@@ -123,7 +124,7 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
 @time_slicer
 @plugin_function
 def connected_component_labeling(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
-    
+    import SimpleITK as sitk
     return sitk.ConnectedComponent(binary_image)
 
 
@@ -138,7 +139,7 @@ def touching_objects_labeling(binary_image:napari.types.LabelsData, viewer: napa
     --------
     ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html#Multi-label-Morphology
     """
-    
+    import SimpleITK as sitk
     distance_map = sitk.SignedMaurerDistanceMap(binary_image, insideIsPositive=False, squaredDistance=False,
                                                 useImageSpacing=False)
 
@@ -165,7 +166,7 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
     ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html#Multi-label-Morphology
     ..[1] https://github.com/clEsperanto/pyclesperanto_prototype/blob/master/demo/segmentation/voronoi_otsu_labeling.ipynb
     """
-    
+    import SimpleITK as sitk
 
     blurred_spots = sitk.GradientMagnitudeRecursiveGaussian(image, sigma=spot_sigma)
 
@@ -182,6 +183,7 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
 @time_slicer
 @plugin_function
 def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.Bilateral(image, radius)
 
 
@@ -189,6 +191,7 @@ def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: na
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.Laplacian(image)
 
 
@@ -196,6 +199,7 @@ def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None)
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.LaplacianRecursiveGaussian(image, sigma=sigma)
 
 
@@ -203,12 +207,15 @@ def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, 
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.BinomialBlur(image, repetitions)
+
 
 @register_function(menu="Segmentation / binarization > Canny edge detection (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 0, upper_threshold: float = 50, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
     return sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold)
 
 
@@ -216,6 +223,7 @@ def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 
 @time_slicer
 @plugin_function
 def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.GradientMagnitude(image)
 
 
@@ -223,6 +231,7 @@ def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = Non
 @time_slicer
 @plugin_function
 def h_maxima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.HMaxima(image, height=height)
 
 
@@ -230,6 +239,7 @@ def h_maxima(image:napari.types.ImageData, height: float = 10, viewer: napari.Vi
 @time_slicer
 @plugin_function
 def h_minima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.HMinima(image, height=height)
 
 
@@ -241,6 +251,7 @@ def otsu_multiple_thresholds(image:napari.types.ImageData,
                              label_offset: int = 0,
                              number_of_histogram_bins: int = 256,
                              viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
     return sitk.OtsuMultipleThresholds(image, numberOfThresholds=number_of_thresholds,
                                        labelOffset=label_offset,
                                        numberOfHistogramBins=number_of_histogram_bins)
@@ -249,6 +260,7 @@ def otsu_multiple_thresholds(image:napari.types.ImageData,
 @time_slicer
 @plugin_function
 def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.RegionalMaxima(image)
 
 
@@ -256,6 +268,7 @@ def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) 
 @time_slicer
 @plugin_function
 def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.RegionalMinima(image)
 
 
@@ -263,6 +276,7 @@ def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) 
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, number_of_iterations: int = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.RichardsonLucyDeconvolution(image, kernel, number_of_iterations)
 
 
@@ -270,6 +284,7 @@ def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.ty
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, noise_variance: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.WienerDeconvolution(image, kernel, noise_variance)
 
 
@@ -277,6 +292,7 @@ def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.Image
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, regularization_constant: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.TikhonovDeconvolution(image, kernel, regularization_constant)
 
 
@@ -284,6 +300,7 @@ def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.Ima
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, output_maximum: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.RescaleIntensity(image, outputMinimum=output_minimum, outputMaximum=output_maximum)
 
 
@@ -291,6 +308,7 @@ def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, o
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.SobelEdgeDetection(image)
 
 
@@ -298,6 +316,7 @@ def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.WhiteTopHat(image, [radius_x, radius_y, radius_z])
 
 
@@ -305,5 +324,124 @@ def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
     return sitk.BlackTopHat(image, [radius_x, radius_y, radius_z])
+
+
+@register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
+@plugin_function
+@time_slicer
+def relabel_component(label_image, minimumObjectSize=15):
+    """
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    """
+    import SimpleITK as sitk
+    return sitk.RelabelComponent(label_image, minimumObjectSize=minimumObjectSize)
+
+
+@register_function(menu="Measurement > Measurements (n-SimpleITK)")
+@plugin_function
+def label_statistics(
+        image_layer: napari.layers.Layer,
+        labels_layer: napari.layers.Labels,
+        napari_viewer: napari.Viewer,
+        size: bool = True, intensity: bool = True, perimeter: bool = False,
+        shape: bool = False, position: bool = False, moments: bool = False):
+    """
+    See Also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1LabelShapeStatisticsImageFilter
+    ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    """
+    import SimpleITK as sitk
+
+    if image_layer is not None and labels_layer is not None:
+        intensity_image = sitk.GetImageFromArray(image_layer.data)
+        label_image = sitk.GetImageFromArray(labels_layer.data)
+
+        intensity_stats = sitk.LabelStatisticsImageFilter()
+        intensity_stats.Execute(intensity_image, label_image)
+
+        shape_stats = sitk.LabelShapeStatisticsImageFilter()
+        shape_stats.SetComputeFeretDiameter(True)
+        shape_stats.SetComputeOrientedBoundingBox(False)
+        shape_stats.SetComputePerimeter(True)
+        shape_stats.Execute(label_image)
+
+        results = {}
+
+        for l in shape_stats.GetLabels():
+            ##range(1, stats.GetNumberOfLabels() + 1):
+            _append_to_column(results, "label", l)
+
+            if intensity:
+                _append_to_column(results, "maximum", intensity_stats.GetMaximum(l))
+                _append_to_column(results, "mean", intensity_stats.GetMean(l))
+                _append_to_column(results, "median", intensity_stats.GetMedian(l))
+                _append_to_column(results, "minimum", intensity_stats.GetMinimum(l))
+                _append_to_column(results, "sigma", intensity_stats.GetSigma(l))
+                _append_to_column(results, "sum", intensity_stats.GetSum(l))
+                _append_to_column(results, "variance", intensity_stats.GetVariance(l))
+
+            if position:
+                for i, value in enumerate(shape_stats.GetBoundingBox(l)):
+                    _append_to_column(results, "bbox_" + str(i), value)
+
+                for i, value in enumerate(shape_stats.GetCentroid(l)):
+                    _append_to_column(results, "centroid_" + str(i), value)
+
+            if shape:
+                _append_to_column(results, "elongation", shape_stats.GetElongation(l))
+
+                _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
+                _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
+
+                _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
+
+            if size:
+                for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
+                    _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
+
+                _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
+                _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
+
+                _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
+                _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
+
+            if perimeter:
+                _append_to_column(results, "perimeter", shape_stats.GetPerimeter(l))
+                _append_to_column(results, "perimeter_on_border", shape_stats.GetPerimeterOnBorder(l))
+                _append_to_column(results, "perimeter_on_border_ratio", shape_stats.GetPerimeterOnBorderRatio(l))
+
+            if moments:
+                for i, value in enumerate(shape_stats.GetPrincipalAxes(l)):
+                    _append_to_column(results, "principal_axes" + str(i), value)
+
+                for i, value in enumerate(shape_stats.GetPrincipalMoments(l)):
+                    _append_to_column(results, "principal_moments" + str(i), value)
+
+            # potential todo:
+            # std::vector< double > 	GetOrientedBoundingBoxDirection (int64_t label) const
+            # std::vector< double > 	GetOrientedBoundingBoxOrigin (int64_t label) const
+            # std::vector< double > 	GetOrientedBoundingBoxSize (int64_t label) const
+            # std::vector< double > 	GetOrientedBoundingBoxVertices (int64_t label) const
+            # double 	GetPhysicalSize (int64_t label) const
+
+        # Store results in the properties dictionary:
+        labels_layer.properties = results
+
+        # turn table into a widget
+        from napari_skimage_regionprops import add_table
+        add_table(labels_layer, napari_viewer)
+    else:
+        warnings.warn("Image and labels must be set.")
+
+
+def _append_to_column(dictionary, column_name, value):
+    if column_name not in dictionary.keys():
+        dictionary[column_name] = []
+    dictionary[column_name].append(value)
+
 
