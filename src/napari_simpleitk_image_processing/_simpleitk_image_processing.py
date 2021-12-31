@@ -436,6 +436,19 @@ def morphological_gradient(distance_image:napari.types.ImageData, radius_x:int =
     return sitk.MorphologicalGradient( distance_image, kernelRadius=[radius_x, radius_y, radius_z], )
 
 
+@register_function(menu="Filtering / edge enhancement > Standard deviation filter (noise, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def standard_deviation_filter(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    See also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1NoiseImageFilter.html
+    """
+    import SimpleITK as sitk
+    return sitk.Noise(distance_image, radius=[radius_x, radius_y, radius_z], )
+
+
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function

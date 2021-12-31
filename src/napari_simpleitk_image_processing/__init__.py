@@ -25,6 +25,7 @@ from ._simpleitk_image_processing import \
     signed_maurer_distance_map, \
     morphological_watershed, \
     morphological_gradient, \
+    standard_deviation_filter, \
     connected_component_labeling, \
     touching_objects_labeling, \
     watershed_otsu_labeling, \
