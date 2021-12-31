@@ -760,7 +760,7 @@ def relabel_component(label_image:napari.types.LabelsData, minimumObjectSize:int
     return sitk.RelabelComponent(label_image, minimumObjectSize=minimumObjectSize)
 
 
-@register_function(menu="Segmentation / binarization > Label contour (n-SimpleITK)")
+@register_function(menu="Segmentation post-processing > Label contour (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = True, viewer: napari.Viewer = None) -> napari.types.LabelsData:
