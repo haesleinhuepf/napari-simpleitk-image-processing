@@ -644,14 +644,31 @@ def adaptive_histogram_equalization(
     --------
     ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1AdaptiveHistogramEqualizationImageFilter.html
     """
-
     import SimpleITK as sitk
     ahe = sitk.AdaptiveHistogramEqualizationImageFilter()
     ahe.SetAlpha(alpha)
     ahe.SetBeta(beta)
     ahe.SetRadius([radius_x, radius_y, radius_z])
-
     return ahe.Execute(image)
+
+
+@register_function(menu="Segmentation post-processing > Binary min-max curvature flow (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def binary_min_max_curvature_flow(
+        image:napari.types.LabelsData,
+        threshold: float = 0.0,
+        time_step: float = 0.05,
+        stencil_radius: int = 2,
+        number_of_iterations: int = 5,
+        viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    bmmcf = sitk.BinaryMinMaxCurvatureFlowImageFilter()
+    bmmcf.SetTimeStep(time_step)
+    bmmcf.SetStencilRadius(stencil_radius)
+    bmmcf.SetThreshold(threshold)
+    bmmcf.SetNumberOfIterations(number_of_iterations)
+    return sitk.Cast(bmmcf.Execute(image), sitk.sitkUInt8)
 
 
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
