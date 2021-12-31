@@ -28,6 +28,7 @@ from ._simpleitk_image_processing import \
     touching_objects_labeling, \
     watershed_otsu_labeling, \
     binary_fill_holes, \
+    invert_intensity, \
     bilateral_filter, \
     laplacian_filter, \
     laplacian_of_gaussian_filter, \

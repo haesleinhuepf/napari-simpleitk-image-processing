@@ -482,6 +482,14 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
     return labels
 
 
+@register_function(menu="Image math > Invert image (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def invert_intensity(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
+    return sitk.InvertIntensity(image)
+
+
 @register_function(menu="Filtering / noise removal > Bilateral (n-SimpleITK)")
 @time_slicer
 @plugin_function
