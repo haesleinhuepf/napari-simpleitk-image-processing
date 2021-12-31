@@ -9,7 +9,7 @@ def napari_experimental_provide_function():
         canny_edge_detection, gradient_magnitude, h_maxima, \
         h_minima, otsu_multiple_thresholds, regional_maxima, regional_minima, \
         richardson_lucy_deconvolution, wiener_deconvolution, tikhonov_deconvolution, rescale_intensity, \
-        sobel, black_top_hat, white_top_hat
+        sobel, black_top_hat, white_top_hat, relabel_component
 
     return [median_filter,
             gaussian_blur,
@@ -37,6 +37,7 @@ def napari_experimental_provide_function():
             rescale_intensity,
             sobel,
             black_top_hat,
-            white_top_hat
+            white_top_hat,
+            relabel_component
             ]
 
