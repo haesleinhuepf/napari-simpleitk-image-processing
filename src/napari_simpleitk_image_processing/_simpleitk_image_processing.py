@@ -466,6 +466,15 @@ def simple_linear_iterative_clustering(image:napari.types.ImageData,
                      superGridSize=[grid_size_x, grid_size_y, grid_size_z])
 
 
+@register_function(menu="Segmentation / labeling > Scalar image K-means clustering (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def scalar_image_k_means_clustering(image:napari.types.ImageData,
+                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    return sitk.ScalarImageKmeans(image)
+
+
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
