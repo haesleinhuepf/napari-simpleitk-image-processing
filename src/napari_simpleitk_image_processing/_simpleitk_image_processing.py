@@ -786,9 +786,8 @@ def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = T
 
 @register_function(menu="Measurement > Measurements (n-SimpleITK)")
 @time_slicer
-@plugin_function
 def label_statistics(
-        intensity_image: napari.types.LayerData,
+        intensity_image: napari.types.ImageData,
         label_image: napari.types.LabelsData,
         napari_viewer: napari.Viewer,
         size: bool = True, intensity: bool = True, perimeter: bool = False,
@@ -800,15 +799,17 @@ def label_statistics(
     ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
+    sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
+    sitk_label_image = sitk.GetImageFromArray(label_image)
 
     intensity_stats = sitk.LabelStatisticsImageFilter()
-    intensity_stats.Execute(intensity_image, label_image)
+    intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
 
     shape_stats = sitk.LabelShapeStatisticsImageFilter()
     shape_stats.SetComputeFeretDiameter(True)
     shape_stats.SetComputeOrientedBoundingBox(False)
     shape_stats.SetComputePerimeter(True)
-    shape_stats.Execute(label_image)
+    shape_stats.Execute(sitk_label_image)
 
     results = {}
 

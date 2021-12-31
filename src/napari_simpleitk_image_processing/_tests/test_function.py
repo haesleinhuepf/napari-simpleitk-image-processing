@@ -81,18 +81,7 @@ def test_something():
 
         operation(image, image)
 
-def test_statistics():
-    from napari_simpleitk_image_processing import label_statistics
-
-    image = np.asarray([
-        [0, 1, 2, 3],
-        [0, 1, 2, 3],
-        [4, 4, 4, 4],
-        [5, 5, 0, 0]
-    ])
-    labels = image
-
-    reference = {
+reference = {
         'label': [1, 2, 3, 4, 5],
         'maximum': [1., 2., 3., 4., 5.],
         'mean': [1., 2., 3., 4., 5.],
@@ -128,6 +117,17 @@ def test_statistics():
         'principal_moments1': [0.25, 0.25, 0.25, 1.25, 0.25]
     }
 
+def test_statistics():
+    from napari_simpleitk_image_processing import label_statistics
+
+    image = np.asarray([
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [4, 4, 4, 4],
+        [5, 5, 0, 0]
+    ])
+    labels = image
+
     result = label_statistics(image, labels, None, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
 
     print(result)
@@ -137,3 +137,35 @@ def test_statistics():
 
     for k, v in reference.items():
         assert np.allclose(result[k], reference[k], 0.001)
+
+def test_statistics_with_viewer(make_napari_viewer):
+    from napari_simpleitk_image_processing import label_statistics
+
+    viewer = make_napari_viewer()
+
+    image = np.asarray([
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [4, 4, 4, 4],
+        [5, 5, 0, 0]
+    ])
+    labels = image
+
+    labels_layer = viewer.add_labels(labels, name="test1")
+
+    label_statistics(image, labels, viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+
+    result = labels_layer.properties
+    print(result)
+
+    for k, v in result.items():
+        assert np.allclose(result[k], reference[k], 0.001)
+
+    for k, v in reference.items():
+        assert np.allclose(result[k], reference[k], 0.001)
+
+
+
+def test_napari_api():
+    from napari_simpleitk_image_processing import napari_experimental_provide_function
+    napari_experimental_provide_function()
