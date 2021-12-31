@@ -15,7 +15,8 @@ def test_something():
         canny_edge_detection, gradient_magnitude, h_maxima, \
         h_minima, otsu_multiple_thresholds, regional_maxima, regional_minima, \
         richardson_lucy_deconvolution, wiener_deconvolution, tikhonov_deconvolution, rescale_intensity, \
-        sobel, black_top_hat, white_top_hat, adaptive_histogram_equalization, relabel_component, label_contour
+        sobel, black_top_hat, white_top_hat, adaptive_histogram_equalization, curvature_flow_denoise, \
+        relabel_component, label_contour
 
     image = np.asarray([[0, 1, 2, 3],
                         [2, 0, 1, 3],
@@ -57,6 +58,7 @@ def test_something():
             black_top_hat,
             white_top_hat,
             adaptive_histogram_equalization,
+            curvature_flow_denoise,
             relabel_component,
             label_contour]:
         print(operation)

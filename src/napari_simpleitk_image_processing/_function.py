@@ -12,7 +12,8 @@ def napari_experimental_provide_function():
         canny_edge_detection, gradient_magnitude, h_maxima, \
         h_minima, otsu_multiple_thresholds, regional_maxima, regional_minima, \
         richardson_lucy_deconvolution, wiener_deconvolution, tikhonov_deconvolution, rescale_intensity, \
-        sobel, black_top_hat, white_top_hat, adaptive_histogram_equalization, relabel_component, label_contour, \
+        sobel, black_top_hat, white_top_hat, adaptive_histogram_equalization, curvature_flow_denoise, \
+        relabel_component, label_contour, \
         label_statistics
 
     return [median_filter,
@@ -53,6 +54,7 @@ def napari_experimental_provide_function():
             black_top_hat,
             white_top_hat,
             adaptive_histogram_equalization,
+            curvature_flow_denoise,
             relabel_component,
             label_contour,
             label_statistics

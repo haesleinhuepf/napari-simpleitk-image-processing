@@ -654,6 +654,22 @@ def adaptive_histogram_equalization(
     return ahe.Execute(image)
 
 
+
+@register_function(menu="Filtering / noise removal > Curvature flow (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def curvature_flow_denoise(image:napari.types.ImageData,
+        time_step:float = 0.05,
+        number_of_iterations:int = 5,
+        viewer: napari.Viewer = None) -> napari.types.ImageData:
+
+    import SimpleITK as sitk
+    cf = sitk.CurvatureFlowImageFilter()
+    cf.SetNumberOfIterations(number_of_iterations)
+    cf.SetTimeStep(time_step)
+    return cf.Execute(image)
+
+
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
 @time_slicer
 @plugin_function
