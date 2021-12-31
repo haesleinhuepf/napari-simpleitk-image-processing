@@ -449,6 +449,23 @@ def standard_deviation_filter(distance_image:napari.types.ImageData, radius_x:in
     return sitk.Noise(distance_image, radius=[radius_x, radius_y, radius_z], )
 
 
+@register_function(menu="Segmentation / labeling > Simple linear iterative clustering (SLIC, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def simple_linear_iterative_clustering(image:napari.types.ImageData,
+                                       maximum_number_of_iterations:int = 5,
+                                       spatial_proximity_weight:float = 10,
+                                       grid_size_x:int=50,
+                                       grid_size_y:int=50,
+                                       grid_size_z:int=50,
+                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    return sitk.SLIC(image,
+                     maximumNumberOfIterations=maximum_number_of_iterations,
+                     spatialProximityWeight=spatial_proximity_weight,
+                     superGridSize=[grid_size_x, grid_size_y, grid_size_z])
+
+
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
