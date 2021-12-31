@@ -83,8 +83,311 @@ def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_
 @time_slicer
 @plugin_function
 def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Otsu's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
     import SimpleITK as sitk
     return sitk.OtsuThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Intermodes et al 1979, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_intermodes(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Intermodes method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.IntermodesThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Kittler and Illingworth 1986, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_kittler_illingworth(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Kittler-Illingworth method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.KittlerIllingworthThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Li et al 1993, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_li(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Li's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.LiThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Moments, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_moments(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Moments method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.MomentsThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Renyi entropy, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_renyi_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Renyi-entropy method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.RenyiEntropyThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Shanbhag 1994, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_shanbhag(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Shanbhag's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.ShanbhagThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Yen et al 1995, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_yen(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Yen's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.YenThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (IsoData, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_isodata(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the IsoData method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.IsoDataThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Triangle, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_triangle(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Otsu's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.OtsuThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Huang and Wang 1995, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_huang(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the triangle method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.TriangleThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Maximum entropy, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_maximum_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to maximum-entropy method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.MaximumEntropyThreshold(image,0,1)
+
 
 @register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer
@@ -118,6 +421,58 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
     """
     import SimpleITK as sitk
     return sitk.MorphologicalWatershed( distance_image, markWatershedLine=False, level=level)
+
+
+@register_function(menu="Filtering / edge enhancement > Morphological gradient (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def morphological_gradient(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    See also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1MorphologicalGradientImageFilter.html
+    """
+    import SimpleITK as sitk
+    return sitk.MorphologicalGradient( distance_image, kernelRadius=[radius_x, radius_y, radius_z], )
+
+
+@register_function(menu="Filtering / edge enhancement > Standard deviation filter (noise, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def standard_deviation_filter(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    See also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1NoiseImageFilter.html
+    """
+    import SimpleITK as sitk
+    return sitk.Noise(distance_image, radius=[radius_x, radius_y, radius_z], )
+
+
+@register_function(menu="Segmentation / labeling > Simple linear iterative clustering (SLIC, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def simple_linear_iterative_clustering(image:napari.types.ImageData,
+                                       maximum_number_of_iterations:int = 5,
+                                       spatial_proximity_weight:float = 10,
+                                       grid_size_x:int=50,
+                                       grid_size_y:int=50,
+                                       grid_size_z:int=50,
+                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    return sitk.SLIC(image,
+                     maximumNumberOfIterations=maximum_number_of_iterations,
+                     spatialProximityWeight=spatial_proximity_weight,
+                     superGridSize=[grid_size_x, grid_size_y, grid_size_z])
+
+
+@register_function(menu="Segmentation / labeling > Scalar image K-means clustering (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def scalar_image_k_means_clustering(image:napari.types.ImageData,
+                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    return sitk.ScalarImageKmeans(image)
 
 
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
@@ -177,6 +532,14 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
     labels = sitk.Mask(ws, sitk.Cast(binary_otsu, ws.GetPixelID()))
 
     return labels
+
+
+@register_function(menu="Image math > Invert image (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def invert_intensity(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    import SimpleITK as sitk
+    return sitk.InvertIntensity(image)
 
 
 @register_function(menu="Filtering / noise removal > Bilateral (n-SimpleITK)")
@@ -328,10 +691,75 @@ def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
     return sitk.BlackTopHat(image, [radius_x, radius_y, radius_z])
 
 
-@register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
-@plugin_function
+@register_function(menu="Filtering > Adaptive histogram equalization (n-SimpleITK)")
 @time_slicer
-def relabel_component(label_image, minimumObjectSize=15):
+@plugin_function(convert_input_to_float=True)
+def adaptive_histogram_equalization(
+        image:napari.types.ImageData,
+        alpha:float = 0.3,
+        beta:float = 0.3,
+        radius_x: int = 5,
+        radius_y: int = 5,
+        radius_z: int = 5,
+        viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    Power Law Adaptive Histogram Equalization.
+
+    Parameters
+    ----------
+    image
+    alpha: float, optional
+        controls how much the filter acts like the classical histogram equalization method (alpha=0) to how much the
+        filter acts like an unsharp mask (alpha=1).
+    beta: float, optional
+        controls how much the filter acts like an unsharp mask (beta=0) to much the filter acts like pass through
+        (beta=1, with alpha=1).
+    radius_x: int, optional
+        controls the size of the region over which local statistics are calculated. The size of the window is
+        controlled by the radius the default radius is 5 in all directions.
+    radius_y: int, optional
+    radius_z: int, optional
+    viewer: napari.Viewer, optional
+        necessary for time-slicer
+
+    Returns
+    -------
+    image
+
+    See Also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1AdaptiveHistogramEqualizationImageFilter.html
+    """
+
+    import SimpleITK as sitk
+    ahe = sitk.AdaptiveHistogramEqualizationImageFilter()
+    ahe.SetAlpha(alpha)
+    ahe.SetBeta(beta)
+    ahe.SetRadius([radius_x, radius_y, radius_z])
+
+    return ahe.Execute(image)
+
+
+
+@register_function(menu="Filtering / noise removal > Curvature flow (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def curvature_flow_denoise(image:napari.types.ImageData,
+        time_step:float = 0.05,
+        number_of_iterations:int = 5,
+        viewer: napari.Viewer = None) -> napari.types.ImageData:
+
+    import SimpleITK as sitk
+    cf = sitk.CurvatureFlowImageFilter()
+    cf.SetNumberOfIterations(number_of_iterations)
+    cf.SetTimeStep(time_step)
+    return cf.Execute(image)
+
+
+@register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def relabel_component(label_image:napari.types.LabelsData, minimumObjectSize:int=15, viewer: napari.Viewer = None) -> napari.types.LabelsData:
     """
     See Also
     --------
@@ -341,11 +769,26 @@ def relabel_component(label_image, minimumObjectSize=15):
     return sitk.RelabelComponent(label_image, minimumObjectSize=minimumObjectSize)
 
 
-@register_function(menu="Measurement > Measurements (n-SimpleITK)")
+@register_function(menu="Segmentation post-processing > Label contour (n-SimpleITK)")
+@time_slicer
 @plugin_function
+def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = True, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Extract the outline of labels in a label image.
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/05_Results_Visualization.html
+    """
+    import SimpleITK as sitk
+    return sitk.LabelContour(label_image, fullyConnected=fully_connected, backgroundValue=0)
+
+
+@register_function(menu="Measurement > Measurements (n-SimpleITK)")
+@time_slicer
 def label_statistics(
-        image_layer: napari.layers.Layer,
-        labels_layer: napari.layers.Labels,
+        intensity_image: napari.types.ImageData,
+        label_image: napari.types.LabelsData,
         napari_viewer: napari.Viewer,
         size: bool = True, intensity: bool = True, perimeter: bool = False,
         shape: bool = False, position: bool = False, moments: bool = False):
@@ -356,79 +799,80 @@ def label_statistics(
     ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
+    sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
+    sitk_label_image = sitk.GetImageFromArray(label_image)
 
-    if image_layer is not None and labels_layer is not None:
-        intensity_image = sitk.GetImageFromArray(image_layer.data)
-        label_image = sitk.GetImageFromArray(labels_layer.data)
+    intensity_stats = sitk.LabelStatisticsImageFilter()
+    intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
 
-        intensity_stats = sitk.LabelStatisticsImageFilter()
-        intensity_stats.Execute(intensity_image, label_image)
+    shape_stats = sitk.LabelShapeStatisticsImageFilter()
+    shape_stats.SetComputeFeretDiameter(True)
+    shape_stats.SetComputeOrientedBoundingBox(False)
+    shape_stats.SetComputePerimeter(True)
+    shape_stats.Execute(sitk_label_image)
 
-        shape_stats = sitk.LabelShapeStatisticsImageFilter()
-        shape_stats.SetComputeFeretDiameter(True)
-        shape_stats.SetComputeOrientedBoundingBox(False)
-        shape_stats.SetComputePerimeter(True)
-        shape_stats.Execute(label_image)
+    results = {}
 
-        results = {}
+    for l in shape_stats.GetLabels():
+        ##range(1, stats.GetNumberOfLabels() + 1):
+        _append_to_column(results, "label", l)
 
-        for l in shape_stats.GetLabels():
-            ##range(1, stats.GetNumberOfLabels() + 1):
-            _append_to_column(results, "label", l)
+        if intensity:
+            _append_to_column(results, "maximum", intensity_stats.GetMaximum(l))
+            _append_to_column(results, "mean", intensity_stats.GetMean(l))
+            _append_to_column(results, "median", intensity_stats.GetMedian(l))
+            _append_to_column(results, "minimum", intensity_stats.GetMinimum(l))
+            _append_to_column(results, "sigma", intensity_stats.GetSigma(l))
+            _append_to_column(results, "sum", intensity_stats.GetSum(l))
+            _append_to_column(results, "variance", intensity_stats.GetVariance(l))
 
-            if intensity:
-                _append_to_column(results, "maximum", intensity_stats.GetMaximum(l))
-                _append_to_column(results, "mean", intensity_stats.GetMean(l))
-                _append_to_column(results, "median", intensity_stats.GetMedian(l))
-                _append_to_column(results, "minimum", intensity_stats.GetMinimum(l))
-                _append_to_column(results, "sigma", intensity_stats.GetSigma(l))
-                _append_to_column(results, "sum", intensity_stats.GetSum(l))
-                _append_to_column(results, "variance", intensity_stats.GetVariance(l))
+        if position:
+            for i, value in enumerate(shape_stats.GetBoundingBox(l)):
+                _append_to_column(results, "bbox_" + str(i), value)
 
-            if position:
-                for i, value in enumerate(shape_stats.GetBoundingBox(l)):
-                    _append_to_column(results, "bbox_" + str(i), value)
+            for i, value in enumerate(shape_stats.GetCentroid(l)):
+                _append_to_column(results, "centroid_" + str(i), value)
 
-                for i, value in enumerate(shape_stats.GetCentroid(l)):
-                    _append_to_column(results, "centroid_" + str(i), value)
+        if shape:
+            _append_to_column(results, "elongation", shape_stats.GetElongation(l))
 
-            if shape:
-                _append_to_column(results, "elongation", shape_stats.GetElongation(l))
+            _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
+            _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
 
-                _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
-                _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
+            _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
 
-                _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
+        if size:
+            for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
+                _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
 
-            if size:
-                for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
-                    _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
+            _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
+            _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
 
-                _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
-                _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
+            _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
+            _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
 
-                _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
-                _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
+        if perimeter:
+            _append_to_column(results, "perimeter", shape_stats.GetPerimeter(l))
+            _append_to_column(results, "perimeter_on_border", shape_stats.GetPerimeterOnBorder(l))
+            _append_to_column(results, "perimeter_on_border_ratio", shape_stats.GetPerimeterOnBorderRatio(l))
 
-            if perimeter:
-                _append_to_column(results, "perimeter", shape_stats.GetPerimeter(l))
-                _append_to_column(results, "perimeter_on_border", shape_stats.GetPerimeterOnBorder(l))
-                _append_to_column(results, "perimeter_on_border_ratio", shape_stats.GetPerimeterOnBorderRatio(l))
+        if moments:
+            for i, value in enumerate(shape_stats.GetPrincipalAxes(l)):
+                _append_to_column(results, "principal_axes" + str(i), value)
 
-            if moments:
-                for i, value in enumerate(shape_stats.GetPrincipalAxes(l)):
-                    _append_to_column(results, "principal_axes" + str(i), value)
+            for i, value in enumerate(shape_stats.GetPrincipalMoments(l)):
+                _append_to_column(results, "principal_moments" + str(i), value)
 
-                for i, value in enumerate(shape_stats.GetPrincipalMoments(l)):
-                    _append_to_column(results, "principal_moments" + str(i), value)
+        # potential todo:
+        # std::vector< double > 	GetOrientedBoundingBoxDirection (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxOrigin (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxSize (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxVertices (int64_t label) const
+        # double 	GetPhysicalSize (int64_t label) const
 
-            # potential todo:
-            # std::vector< double > 	GetOrientedBoundingBoxDirection (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxOrigin (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxSize (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxVertices (int64_t label) const
-            # double 	GetPhysicalSize (int64_t label) const
-
+    if napari_viewer is not None:
+        from napari_workflows._workflow import _get_layer_from_data
+        labels_layer = _get_layer_from_data(napari_viewer, label_image)
         # Store results in the properties dictionary:
         labels_layer.properties = results
 
@@ -436,7 +880,7 @@ def label_statistics(
         from napari_skimage_regionprops import add_table
         add_table(labels_layer, napari_viewer)
     else:
-        warnings.warn("Image and labels must be set.")
+        return results
 
 
 def _append_to_column(dictionary, column_name, value):
