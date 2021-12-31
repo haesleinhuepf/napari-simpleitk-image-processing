@@ -56,10 +56,8 @@ def test_something():
 
         operation(image, image)
 
-def test_statistics(make_napari_viewer):
+def test_statistics():
     from napari_simpleitk_image_processing import label_statistics
-
-    viewer = make_napari_viewer()
 
     image = np.asarray([
         [0, 1, 2, 3],
@@ -105,11 +103,7 @@ def test_statistics(make_napari_viewer):
         'principal_moments1': [0.25, 0.25, 0.25, 1.25, 0.25]
     }
 
-    image_layer = viewer.add_image(image)
-    labels_layer = viewer.add_labels(labels)
-
-    label_statistics(image_layer, labels_layer, viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
-    result = labels_layer.properties
+    result = label_statistics(image, labels, None, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
 
     print(result)
 

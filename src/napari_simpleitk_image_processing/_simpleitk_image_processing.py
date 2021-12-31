@@ -329,8 +329,8 @@ def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
 
 
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
-@plugin_function
 @time_slicer
+@plugin_function
 def relabel_component(label_image, minimumObjectSize=15):
     """
     See Also
@@ -342,10 +342,11 @@ def relabel_component(label_image, minimumObjectSize=15):
 
 
 @register_function(menu="Measurement > Measurements (n-SimpleITK)")
+@time_slicer
 @plugin_function
 def label_statistics(
-        image_layer: napari.layers.Layer,
-        labels_layer: napari.layers.Labels,
+        intensity_image: napari.types.LayerData,
+        label_image: napari.types.LabelsData,
         napari_viewer: napari.Viewer,
         size: bool = True, intensity: bool = True, perimeter: bool = False,
         shape: bool = False, position: bool = False, moments: bool = False):
@@ -357,78 +358,77 @@ def label_statistics(
     """
     import SimpleITK as sitk
 
-    if image_layer is not None and labels_layer is not None:
-        intensity_image = sitk.GetImageFromArray(image_layer.data)
-        label_image = sitk.GetImageFromArray(labels_layer.data)
+    intensity_stats = sitk.LabelStatisticsImageFilter()
+    intensity_stats.Execute(intensity_image, label_image)
 
-        intensity_stats = sitk.LabelStatisticsImageFilter()
-        intensity_stats.Execute(intensity_image, label_image)
+    shape_stats = sitk.LabelShapeStatisticsImageFilter()
+    shape_stats.SetComputeFeretDiameter(True)
+    shape_stats.SetComputeOrientedBoundingBox(False)
+    shape_stats.SetComputePerimeter(True)
+    shape_stats.Execute(label_image)
 
-        shape_stats = sitk.LabelShapeStatisticsImageFilter()
-        shape_stats.SetComputeFeretDiameter(True)
-        shape_stats.SetComputeOrientedBoundingBox(False)
-        shape_stats.SetComputePerimeter(True)
-        shape_stats.Execute(label_image)
+    results = {}
 
-        results = {}
+    for l in shape_stats.GetLabels():
+        ##range(1, stats.GetNumberOfLabels() + 1):
+        _append_to_column(results, "label", l)
 
-        for l in shape_stats.GetLabels():
-            ##range(1, stats.GetNumberOfLabels() + 1):
-            _append_to_column(results, "label", l)
+        if intensity:
+            _append_to_column(results, "maximum", intensity_stats.GetMaximum(l))
+            _append_to_column(results, "mean", intensity_stats.GetMean(l))
+            _append_to_column(results, "median", intensity_stats.GetMedian(l))
+            _append_to_column(results, "minimum", intensity_stats.GetMinimum(l))
+            _append_to_column(results, "sigma", intensity_stats.GetSigma(l))
+            _append_to_column(results, "sum", intensity_stats.GetSum(l))
+            _append_to_column(results, "variance", intensity_stats.GetVariance(l))
 
-            if intensity:
-                _append_to_column(results, "maximum", intensity_stats.GetMaximum(l))
-                _append_to_column(results, "mean", intensity_stats.GetMean(l))
-                _append_to_column(results, "median", intensity_stats.GetMedian(l))
-                _append_to_column(results, "minimum", intensity_stats.GetMinimum(l))
-                _append_to_column(results, "sigma", intensity_stats.GetSigma(l))
-                _append_to_column(results, "sum", intensity_stats.GetSum(l))
-                _append_to_column(results, "variance", intensity_stats.GetVariance(l))
+        if position:
+            for i, value in enumerate(shape_stats.GetBoundingBox(l)):
+                _append_to_column(results, "bbox_" + str(i), value)
 
-            if position:
-                for i, value in enumerate(shape_stats.GetBoundingBox(l)):
-                    _append_to_column(results, "bbox_" + str(i), value)
+            for i, value in enumerate(shape_stats.GetCentroid(l)):
+                _append_to_column(results, "centroid_" + str(i), value)
 
-                for i, value in enumerate(shape_stats.GetCentroid(l)):
-                    _append_to_column(results, "centroid_" + str(i), value)
+        if shape:
+            _append_to_column(results, "elongation", shape_stats.GetElongation(l))
 
-            if shape:
-                _append_to_column(results, "elongation", shape_stats.GetElongation(l))
+            _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
+            _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
 
-                _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
-                _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
+            _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
 
-                _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
+        if size:
+            for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
+                _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
 
-            if size:
-                for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
-                    _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
+            _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
+            _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
 
-                _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
-                _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
+            _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
+            _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
 
-                _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
-                _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
+        if perimeter:
+            _append_to_column(results, "perimeter", shape_stats.GetPerimeter(l))
+            _append_to_column(results, "perimeter_on_border", shape_stats.GetPerimeterOnBorder(l))
+            _append_to_column(results, "perimeter_on_border_ratio", shape_stats.GetPerimeterOnBorderRatio(l))
 
-            if perimeter:
-                _append_to_column(results, "perimeter", shape_stats.GetPerimeter(l))
-                _append_to_column(results, "perimeter_on_border", shape_stats.GetPerimeterOnBorder(l))
-                _append_to_column(results, "perimeter_on_border_ratio", shape_stats.GetPerimeterOnBorderRatio(l))
+        if moments:
+            for i, value in enumerate(shape_stats.GetPrincipalAxes(l)):
+                _append_to_column(results, "principal_axes" + str(i), value)
 
-            if moments:
-                for i, value in enumerate(shape_stats.GetPrincipalAxes(l)):
-                    _append_to_column(results, "principal_axes" + str(i), value)
+            for i, value in enumerate(shape_stats.GetPrincipalMoments(l)):
+                _append_to_column(results, "principal_moments" + str(i), value)
 
-                for i, value in enumerate(shape_stats.GetPrincipalMoments(l)):
-                    _append_to_column(results, "principal_moments" + str(i), value)
+        # potential todo:
+        # std::vector< double > 	GetOrientedBoundingBoxDirection (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxOrigin (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxSize (int64_t label) const
+        # std::vector< double > 	GetOrientedBoundingBoxVertices (int64_t label) const
+        # double 	GetPhysicalSize (int64_t label) const
 
-            # potential todo:
-            # std::vector< double > 	GetOrientedBoundingBoxDirection (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxOrigin (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxSize (int64_t label) const
-            # std::vector< double > 	GetOrientedBoundingBoxVertices (int64_t label) const
-            # double 	GetPhysicalSize (int64_t label) const
-
+    if napari_viewer is not None:
+        from napari_workflows._workflow import _get_layer_from_data
+        labels_layer = _get_layer_from_data(napari_viewer, label_image)
         # Store results in the properties dictionary:
         labels_layer.properties = results
 
@@ -436,7 +436,7 @@ def label_statistics(
         from napari_skimage_regionprops import add_table
         add_table(labels_layer, napari_viewer)
     else:
-        warnings.warn("Image and labels must be set.")
+        return results
 
 
 def _append_to_column(dictionary, column_name, value):
