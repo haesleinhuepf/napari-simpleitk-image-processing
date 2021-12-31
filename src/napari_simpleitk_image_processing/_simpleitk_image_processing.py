@@ -83,8 +83,285 @@ def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_
 @time_slicer
 @plugin_function
 def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Otsu's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
     import SimpleITK as sitk
     return sitk.OtsuThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Kittler and Illingworth 1986, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_kittler_illingworth(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Kittler-Illingworth method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.KittlerIllingworthThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Li et al 1993, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_li(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Li's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.LiThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Moments, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_moments(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Moments method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.MomentsThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Renyi entropy, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_renyi_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Renyi-entropy method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.RenyiEntropyThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Shanbhag 1994, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_shanbhag(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Shanbhag's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.ShanbhagThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Yen et al 1995, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_yen(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Yen's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.YenThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (IsoData, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_isodata(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the IsoData method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.IsoDataThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Triangle, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_triangle(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to Otsu's method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.OtsuThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Huang and Wang 1995, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_huang(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the triangle method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.TriangleThreshold(image,0,1)
+
+
+@register_function(menu="Segmentation / binarization > Threshold (Maximum entropy, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_maximum_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to maximum-entropy method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.MaximumEntropyThreshold(image,0,1)
+
 
 @register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer

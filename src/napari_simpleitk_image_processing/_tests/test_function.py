@@ -6,6 +6,9 @@ import numpy as np
 
 def test_something():
     from napari_simpleitk_image_processing import median_filter, gaussian_blur, threshold_otsu, \
+        threshold_kittler_illingworth, threshold_li, threshold_moments, threshold_renyi_entropy, \
+        threshold_shanbhag, threshold_yen, threshold_isodata, threshold_triangle, threshold_huang, \
+        threshold_maximum_entropy, \
         signed_maurer_distance_map, morphological_watershed, connected_component_labeling, \
         touching_objects_labeling, watershed_otsu_labeling, binary_fill_holes, \
         bilateral_filter, laplacian_filter, laplacian_of_gaussian_filter, binominal_blur_filter, \
@@ -22,6 +25,16 @@ def test_something():
     for operation in  [median_filter,
             gaussian_blur,
             threshold_otsu,
+            threshold_kittler_illingworth,
+            threshold_li,
+            threshold_moments,
+            threshold_renyi_entropy,
+            threshold_shanbhag,
+            threshold_yen,
+            threshold_isodata,
+            threshold_triangle,
+            threshold_huang,
+            threshold_maximum_entropy,
             signed_maurer_distance_map,
             morphological_watershed,
             connected_component_labeling,

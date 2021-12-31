@@ -11,6 +11,16 @@ from ._simpleitk_image_processing import \
     median_filter, \
     gaussian_blur, \
     threshold_otsu, \
+    threshold_kittler_illingworth, \
+    threshold_li, \
+    threshold_moments, \
+    threshold_renyi_entropy, \
+    threshold_shanbhag, \
+    threshold_yen, \
+    threshold_isodata, \
+    threshold_triangle, \
+    threshold_huang, \
+    threshold_maximum_entropy, \
     signed_maurer_distance_map, \
     morphological_watershed, \
     connected_component_labeling, \
