@@ -46,4 +46,5 @@ from ._simpleitk_image_processing import \
     black_top_hat, \
     white_top_hat, \
     relabel_component, \
+    label_contour, \
     label_statistics

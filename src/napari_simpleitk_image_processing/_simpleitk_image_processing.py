@@ -608,7 +608,7 @@ def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def relabel_component(label_image, minimumObjectSize=15):
+def relabel_component(label_image:napari.types.LabelsData, minimumObjectSize:int=15, viewer: napari.Viewer = None) -> napari.types.LabelsData:
     """
     See Also
     --------
@@ -616,6 +616,21 @@ def relabel_component(label_image, minimumObjectSize=15):
     """
     import SimpleITK as sitk
     return sitk.RelabelComponent(label_image, minimumObjectSize=minimumObjectSize)
+
+
+@register_function(menu="Segmentation / binarization > Label contour (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = True, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Extract the outline of labels in a label image.
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/05_Results_Visualization.html
+    """
+    import SimpleITK as sitk
+    return sitk.LabelContour(label_image, fullyConnected=fully_connected, backgroundValue=0)
 
 
 @register_function(menu="Measurement > Measurements (n-SimpleITK)")
