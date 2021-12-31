@@ -605,6 +605,55 @@ def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
     return sitk.BlackTopHat(image, [radius_x, radius_y, radius_z])
 
 
+@register_function(menu="Filtering > Adaptive histogram equalization (n-SimpleITK)")
+@time_slicer
+@plugin_function(convert_input_to_float=True)
+def adaptive_histogram_equalization(
+        image:napari.types.ImageData,
+        alpha:float = 0.3,
+        beta:float = 0.3,
+        radius_x: int = 5,
+        radius_y: int = 5,
+        radius_z: int = 5,
+        viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    Power Law Adaptive Histogram Equalization.
+
+    Parameters
+    ----------
+    image
+    alpha: float, optional
+        controls how much the filter acts like the classical histogram equalization method (alpha=0) to how much the
+        filter acts like an unsharp mask (alpha=1).
+    beta: float, optional
+        controls how much the filter acts like an unsharp mask (beta=0) to much the filter acts like pass through
+        (beta=1, with alpha=1).
+    radius_x: int, optional
+        controls the size of the region over which local statistics are calculated. The size of the window is
+        controlled by the radius the default radius is 5 in all directions.
+    radius_y: int, optional
+    radius_z: int, optional
+    viewer: napari.Viewer, optional
+        necessary for time-slicer
+
+    Returns
+    -------
+    image
+
+    See Also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1AdaptiveHistogramEqualizationImageFilter.html
+    """
+
+    import SimpleITK as sitk
+    ahe = sitk.AdaptiveHistogramEqualizationImageFilter()
+    ahe.SetAlpha(alpha)
+    ahe.SetBeta(beta)
+    ahe.SetRadius([radius_x, radius_y, radius_z])
+
+    return ahe.Execute(image)
+
+
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
 @time_slicer
 @plugin_function

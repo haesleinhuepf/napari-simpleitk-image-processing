@@ -45,6 +45,7 @@ from ._simpleitk_image_processing import \
     sobel, \
     black_top_hat, \
     white_top_hat, \
+    adaptive_histogram_equalization, \
     relabel_component, \
     label_contour, \
     label_statistics
