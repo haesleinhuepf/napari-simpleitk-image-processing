@@ -27,6 +27,8 @@ from ._simpleitk_image_processing import \
     morphological_gradient, \
     standard_deviation_filter, \
     simple_linear_iterative_clustering, \
+    scalar_image_k_means_clustering, \
+    threshold_maximum_connected_components, \
     connected_component_labeling, \
     touching_objects_labeling, \
     watershed_otsu_labeling, \

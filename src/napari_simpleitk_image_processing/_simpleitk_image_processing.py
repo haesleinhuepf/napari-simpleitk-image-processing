@@ -466,6 +466,32 @@ def simple_linear_iterative_clustering(image:napari.types.ImageData,
                      superGridSize=[grid_size_x, grid_size_y, grid_size_z])
 
 
+@register_function(menu="Segmentation / labeling > Scalar image K-means clustering (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def scalar_image_k_means_clustering(image:napari.types.ImageData,
+                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    import SimpleITK as sitk
+    return sitk.ScalarImageKmeans(image)
+
+
+@register_function(menu="Segmentation / labeling > Threshold maximum connected components (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_maximum_connected_components(image:napari.types.ImageData,
+                                    minimum_object_size_in_pixels:int = 0,
+                                    viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Finds the threshold value of an image based on maximizing the number of objects in the image that are larger than a given minimal size.
+
+    See Also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1ThresholdMaximumConnectedComponentsImageFilter.html
+    """
+    import SimpleITK as sitk
+    return sitk.ThresholdMaximumConnectedComponents(image, minimumObjectSizeInPixels=minimum_object_size_in_pixels)
+
+
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
