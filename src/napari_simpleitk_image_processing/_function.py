@@ -2,7 +2,7 @@ from napari_plugin_engine import napari_hook_implementation
 
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    from ._simpleitk_image_processing import median_filter, gaussian_blur, threshold_otsu, \
+    from ._simpleitk_image_processing import median_filter, gaussian_blur, threshold_otsu, threshold_intermodes, \
         threshold_kittler_illingworth, threshold_li, threshold_moments, threshold_renyi_entropy, \
         threshold_shanbhag, threshold_yen, threshold_isodata, threshold_triangle, threshold_huang, \
         threshold_maximum_entropy, \
@@ -19,6 +19,7 @@ def napari_experimental_provide_function():
     return [median_filter,
             gaussian_blur,
             threshold_otsu,
+            threshold_intermodes, 
             threshold_kittler_illingworth,
             threshold_li,
             threshold_moments,

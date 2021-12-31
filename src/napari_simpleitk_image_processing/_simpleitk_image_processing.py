@@ -105,6 +105,32 @@ def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -
     return sitk.OtsuThreshold(image,0,1)
 
 
+@register_function(menu="Segmentation / binarization > Threshold (Intermodes et al 1979, n-SimpleITK)")
+@time_slicer
+@plugin_function
+def threshold_intermodes(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    """
+    Binarize an image according to the Intermodes method.
+
+    Parameters
+    ----------
+    image: Image
+    viewer: napari.Viewer
+
+    See Also
+    --------
+    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
+    ..[1] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1HuangThresholdImageFilter.html
+    ..[2] https://www.insight-journal.org/browse/publication/811
+
+    Returns
+    -------
+    binary_image: napari.types.LabelsData
+    """
+    import SimpleITK as sitk
+    return sitk.IntermodesThreshold(image,0,1)
+
+
 @register_function(menu="Segmentation / binarization > Threshold (Kittler and Illingworth 1986, n-SimpleITK)")
 @time_slicer
 @plugin_function

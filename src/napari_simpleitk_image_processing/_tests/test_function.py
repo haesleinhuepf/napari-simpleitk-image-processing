@@ -5,7 +5,7 @@ import numpy as np
 
 
 def test_something():
-    from napari_simpleitk_image_processing import median_filter, gaussian_blur, threshold_otsu, \
+    from napari_simpleitk_image_processing import median_filter, gaussian_blur, threshold_otsu, threshold_intermodes, \
         threshold_kittler_illingworth, threshold_li, threshold_moments, threshold_renyi_entropy, \
         threshold_shanbhag, threshold_yen, threshold_isodata, threshold_triangle, threshold_huang, \
         threshold_maximum_entropy, \
@@ -26,6 +26,7 @@ def test_something():
     for operation in  [median_filter,
             gaussian_blur,
             threshold_otsu,
+            threshold_intermodes,
             threshold_kittler_illingworth,
             threshold_li,
             threshold_moments,

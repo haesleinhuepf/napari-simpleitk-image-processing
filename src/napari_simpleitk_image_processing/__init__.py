@@ -11,6 +11,7 @@ from ._simpleitk_image_processing import \
     median_filter, \
     gaussian_blur, \
     threshold_otsu, \
+    threshold_intermodes, \
     threshold_kittler_illingworth, \
     threshold_li, \
     threshold_moments, \
