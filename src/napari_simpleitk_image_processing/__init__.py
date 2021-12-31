@@ -24,6 +24,7 @@ from ._simpleitk_image_processing import \
     threshold_maximum_entropy, \
     signed_maurer_distance_map, \
     morphological_watershed, \
+    morphological_gradient, \
     connected_component_labeling, \
     touching_objects_labeling, \
     watershed_otsu_labeling, \

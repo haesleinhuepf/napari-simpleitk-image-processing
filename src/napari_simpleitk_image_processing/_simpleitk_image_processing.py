@@ -423,6 +423,19 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
     return sitk.MorphologicalWatershed( distance_image, markWatershedLine=False, level=level)
 
 
+@register_function(menu="Filtering / edge enhancement > Morphological gradient (n-SimpleITK)")
+@time_slicer
+@plugin_function
+def morphological_gradient(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    """
+    See also
+    --------
+    ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1MorphologicalGradientImageFilter.html
+    """
+    import SimpleITK as sitk
+    return sitk.MorphologicalGradient( distance_image, kernelRadius=[radius_x, radius_y, radius_z], )
+
+
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function

@@ -9,7 +9,7 @@ def test_something():
         threshold_kittler_illingworth, threshold_li, threshold_moments, threshold_renyi_entropy, \
         threshold_shanbhag, threshold_yen, threshold_isodata, threshold_triangle, threshold_huang, \
         threshold_maximum_entropy, \
-        signed_maurer_distance_map, morphological_watershed, connected_component_labeling, \
+        signed_maurer_distance_map, morphological_watershed, morphological_gradient, connected_component_labeling, \
         touching_objects_labeling, watershed_otsu_labeling, binary_fill_holes, invert_intensity, \
         bilateral_filter, laplacian_filter, laplacian_of_gaussian_filter, binominal_blur_filter, \
         canny_edge_detection, gradient_magnitude, h_maxima, \
@@ -39,6 +39,7 @@ def test_something():
             threshold_maximum_entropy,
             signed_maurer_distance_map,
             morphological_watershed,
+            morphological_gradient,
             connected_component_labeling,
             touching_objects_labeling,
             watershed_otsu_labeling,
