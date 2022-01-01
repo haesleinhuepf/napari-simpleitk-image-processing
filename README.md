@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/haesleinhuepf/napari-simpleitk-image-processing/branch/main/graph/badge.svg)](https://codecov.io/gh/haesleinhuepf/napari-simpleitk-image-processing)
 [![Development Status](https://img.shields.io/pypi/status/napari-simpleitk-image-processing.svg)](https://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-simpleitk-image-processing)](https://napari-hub.org/plugins/napari-simpleitk-image-processing)
-
+[![DOI](https://zenodo.org/badge/432729955.svg)](https://zenodo.org/badge/latestdoi/432729955)
 
 Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 
