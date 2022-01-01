@@ -154,6 +154,18 @@ J Digit Imaging., 31(3): 290-303, 2018, [https://doi.org/10.1007/s10278-017-0037
 
 If you encounter any problems, please [file an issue] along with a detailed description.
 
+## See also
+
+There are other napari plugins with similar functionality:
+* [napari-allencell-segmenter](https://napari-hub.org/plugins/napari-allencell-segmenter)
+* [RedLionfish](https://www.napari-hub.org/plugins/RedLionfish)
+* [bbii-decon](https://www.napari-hub.org/plugins/bbii-decon)  
+* [napari-pyclesperanto-assistant](https://www.napari-hub.org/plugins/napari-pyclesperanto-assistant)  
+* [napari-segment-blobs-and-things-with-membranes](https://www.napari-hub.org/plugins/napari-segment-blobs-and-things-with-membranes)
+* [napari-cupy-image-processing](https://www.napari-hub.org/plugins/napari-cupy-image-processing)  
+* [napari-mahotas-image-processing](https://www.napari-hub.org/plugins/napari-mahotas-image-processing)
+
+
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
 [@napari]: https://github.com/napari
