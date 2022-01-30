@@ -789,7 +789,7 @@ def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = T
 def label_statistics(
         intensity_image: napari.types.ImageData,
         label_image: napari.types.LabelsData,
-        napari_viewer: napari.Viewer,
+        napari_viewer: napari.Viewer = None,
         size: bool = True, intensity: bool = True, perimeter: bool = False,
         shape: bool = False, position: bool = False, moments: bool = False):
     """
