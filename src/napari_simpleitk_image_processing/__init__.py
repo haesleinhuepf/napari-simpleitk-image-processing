@@ -58,5 +58,6 @@ from ._simpleitk_image_processing import \
     label_statistics, \
     pixel_count_map, \
     elongation_map, \
-    feret_diameter_map
+    feret_diameter_map, \
+    roundness_map
 

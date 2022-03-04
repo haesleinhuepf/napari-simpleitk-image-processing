@@ -913,6 +913,14 @@ def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewe
     return _relabel(label_image, measurement_vector)
 
 
+@register_function(menu="Measurement > Roundness map (n-SimpleITK)")
+@time_slicer
+def roundness_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
+    measurement_vector = statistics["roundness"]
+    return _relabel(label_image, measurement_vector)
+
+
 def _relabel(labels, measurements):
     try:
         import pyclesperanto_prototype as cle;
