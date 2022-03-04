@@ -891,12 +891,18 @@ def _append_to_column(dictionary, column_name, value):
 
 @register_function(menu="Measurement > Pixel count map (n-SimpleITK)")
 @time_slicer
-def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
+    measurement_vector = statistics["number_of_pixels"]
+    return _relabel(label_image, measurement_vector)
 
-    pixel_count = statistics["number_of_pixels"]
 
-    return _relabel(label_image, pixel_count)
+@register_function(menu="Measurement > Elongation map (n-SimpleITK)")
+@time_slicer
+def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
+    measurement_vector = statistics["elongation"]
+    return _relabel(label_image, measurement_vector)
 
 
 def _relabel(labels, measurements):

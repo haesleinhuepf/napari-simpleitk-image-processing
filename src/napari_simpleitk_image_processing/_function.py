@@ -16,7 +16,7 @@ def napari_experimental_provide_function():
         richardson_lucy_deconvolution, wiener_deconvolution, tikhonov_deconvolution, rescale_intensity, \
         sobel, black_top_hat, white_top_hat, adaptive_histogram_equalization, curvature_flow_denoise, \
         relabel_component, label_contour, \
-        label_statistics, pixel_count_map
+        label_statistics, pixel_count_map, elongation_map
 
     return [median_filter,
             gaussian_blur,
@@ -66,6 +66,7 @@ def napari_experimental_provide_function():
             relabel_component,
             label_contour,
             label_statistics,
-            pixel_count_map
+            pixel_count_map,
+            elongation_map
             ]
 

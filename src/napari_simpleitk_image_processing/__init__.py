@@ -56,5 +56,6 @@ from ._simpleitk_image_processing import \
     relabel_component, \
     label_contour, \
     label_statistics, \
-    pixel_count_map
+    pixel_count_map, \
+    elongation_map
 
