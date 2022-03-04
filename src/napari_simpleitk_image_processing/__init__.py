@@ -57,5 +57,6 @@ from ._simpleitk_image_processing import \
     label_contour, \
     label_statistics, \
     pixel_count_map, \
-    elongation_map
+    elongation_map, \
+    feret_diameter_map
 
