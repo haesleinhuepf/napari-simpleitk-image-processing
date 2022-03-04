@@ -55,5 +55,9 @@ from ._simpleitk_image_processing import \
     curvature_flow_denoise, \
     relabel_component, \
     label_contour, \
-    label_statistics
+    label_statistics, \
+    pixel_count_map, \
+    elongation_map, \
+    feret_diameter_map, \
+    roundness_map
 

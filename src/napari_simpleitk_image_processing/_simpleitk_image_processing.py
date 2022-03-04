@@ -889,3 +889,45 @@ def _append_to_column(dictionary, column_name, value):
     dictionary[column_name].append(value)
 
 
+@register_function(menu="Measurement > Pixel count map (n-SimpleITK)")
+@time_slicer
+def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
+    measurement_vector = statistics["number_of_pixels"]
+    return _relabel(label_image, measurement_vector)
+
+
+@register_function(menu="Measurement > Elongation map (n-SimpleITK)")
+@time_slicer
+def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
+    measurement_vector = statistics["elongation"]
+    return _relabel(label_image, measurement_vector)
+
+
+@register_function(menu="Measurement > Feret diameter map (n-SimpleITK)")
+@time_slicer
+def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
+    measurement_vector = statistics["feret_diameter"]
+    return _relabel(label_image, measurement_vector)
+
+
+@register_function(menu="Measurement > Roundness map (n-SimpleITK)")
+@time_slicer
+def roundness_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
+    measurement_vector = statistics["roundness"]
+    return _relabel(label_image, measurement_vector)
+
+
+def _relabel(labels, measurements):
+    try:
+        import pyclesperanto_prototype as cle;
+        return cle.pull(cle.replace_intensities(labels, numpy.asarray([0] + measurements)))
+    except ImportError:
+        return _relabel_numpy(labels, measurements)
+
+
+def _relabel_numpy(image, measurements):
+    return np.take(np.array([0] + measurements), image)
