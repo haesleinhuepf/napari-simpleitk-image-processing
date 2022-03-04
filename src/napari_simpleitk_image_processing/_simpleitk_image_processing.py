@@ -889,3 +889,23 @@ def _append_to_column(dictionary, column_name, value):
     dictionary[column_name].append(value)
 
 
+@register_function(menu="Measurement > Pixel count map (n-SimpleITK)")
+@time_slicer
+def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+    statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
+
+    pixel_count = statistics["number_of_pixels"]
+
+    return _relabel(label_image, pixel_count)
+
+
+def _relabel(labels, measurements):
+    try:
+        import pyclesperanto_prototype as cle;
+        return cle.pull(cle.replace_intensities(labels, numpy.asarray([0] + measurements)))
+    except ImportError:
+        return _relabel_numpy(labels, measurements)
+
+
+def _relabel_numpy(image, measurements):
+    return np.take(np.array([0] + measurements), image)
