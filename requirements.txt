@@ -6,4 +6,5 @@ simpleitk
 napari-tools-menu
 napari-time-slicer
 napari-skimage-regionprops
+napari-assistant
 -e .
