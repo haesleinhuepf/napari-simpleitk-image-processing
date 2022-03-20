@@ -1,0 +1,30 @@
+
+# Add labels from the EDAM Bioimaging ontology
+labels:
+  ontology: EDAM-BIOIMAGING:alpha06
+  terms:
+  - 2D image
+  - 3D image
+  - Cell segmentation
+  - Connected-component analysis
+  - Illumination correction
+  - Image correction
+  - Image denoising
+  - Image thresholding
+  - Image segmentation
+  - Object feature extraction
+  - Image processing
+  - Smoothing
+  - Morphological operation
+  - Image feature detection
+  - Image projection
+  - Spot detection
+  - Semi-automatic segmentation
+  - Edge detection
+  - Top-hat transform
+  - Image analysis
+  - Closing
+  - Dilation
+  - Opening
+  - Erosion
+  - Image enhancement
