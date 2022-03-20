@@ -13,10 +13,14 @@ Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 
 ## Usage
 
-Filters of this napari plugin can be found in the `Tools > Filtering` menu. 
-Segmentation algorithms and tools for post-processing segmented (binary or label) images can be 
-found in the `Tools > Segmentation` menus. All filters implemented in this napari plugin are also 
-demonstrated in [this notebook](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/demo.ipynb).
+Filters, segmentation algorithms and measurements provided by this napari plugin can be found in the `Tools` menu. 
+You can recognize them with their suffix `(nsbatwm)` in brackets.
+Furthermore, it can be used from the [napari-assistant](https://www.napari-hub.org/plugins/napari-assistant) graphical user interface. 
+Therefore, just click the menu `Tools > Utilities > Assistant (na)` or run `naparia` from the command line.
+
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/screenshot_with_assistant.png)
+
+All filters implemented in this napari plugin are also demonstrated in [this notebook](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/blob/main/docs/demo.ipynb).
 
 ### Gaussian blur
 
@@ -64,7 +68,7 @@ A distance map (more precise: [Signed Maurer Distance Map](https://itk.org/ITKEx
 Positive values in this image correspond to a white (value=1) pixel's distance to the next black pixel.
 Black pixel's (value=0) distance to the next white pixel are represented in this map with negative values.
 
-![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/docs/signed_maured_distance_map.png)
+![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/signed_maured_distance_map.png)
 
 ### Binary fill holes
 
@@ -109,23 +113,31 @@ for acquisition is known or can be approximated.
 
 ![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/Richardson-Lucy-Deconvolution.png)
 
-----------------------------------
-
-This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
-
 
 ## Installation
 
-You can install `napari-simpleitk-image-processing` via [pip]:
+You can install `napari-simpleitk-image-processing` via using `conda` and `pip`.
+If you have never used `conda` before, please go through [this tutorial](https://biapol.github.io/blog/johannes_mueller/anaconda_getting_started/) first.
 
+    conda install -c conda-forge napari
     pip install napari-simpleitk-image-processing
 
+## See also
 
+There are other napari plugins with similar functionality for processing images and extracting features:
+* [morphometrics](https://www.napari-hub.org/plugins/morphometrics)
+* [PartSeg](https://www.napari-hub.org/plugins/PartSeg)
+* [napari-skimage-regionprops](https://www.napari-hub.org/plugins/napari-skimage-regionprops)
+* [napari-cupy-image-processing](https://www.napari-hub.org/plugins/napari-cupy-image-processing)
+* [napari-pyclesperanto-assistant](https://www.napari-hub.org/plugins/napari-pyclesperanto-assistant)
+* [napari-allencell-segmenter](https://napari-hub.org/plugins/napari-allencell-segmenter)
+* [RedLionfish](https://www.napari-hub.org/plugins/RedLionfish)
+* [bbii-decon](https://www.napari-hub.org/plugins/bbii-decon)  
+* [napari-segment-blobs-and-things-with-membranes](https://www.napari-hub.org/plugins/napari-segment-blobs-and-things-with-membranes)
 
-To install latest development version :
-
-    pip install git+https://github.com/haesleinhuepf/napari-simpleitk-image-processing.git
-
+Furthermore, there are plugins for postprocessing extracted measurements
+* [napari-feature-classifier](https://www.napari-hub.org/plugins/napari-feature-classifier)
+* [napari-clusters-plotter](https://www.napari-hub.org/plugins/napari-clusters-plotter)
 
 ## Contributing
 
@@ -153,18 +165,6 @@ J Digit Imaging., 31(3): 290-303, 2018, [https://doi.org/10.1007/s10278-017-0037
 ## Issues
 
 If you encounter any problems, please [file an issue] along with a detailed description.
-
-## See also
-
-There are other napari plugins with similar functionality:
-* [napari-allencell-segmenter](https://napari-hub.org/plugins/napari-allencell-segmenter)
-* [RedLionfish](https://www.napari-hub.org/plugins/RedLionfish)
-* [bbii-decon](https://www.napari-hub.org/plugins/bbii-decon)  
-* [napari-pyclesperanto-assistant](https://www.napari-hub.org/plugins/napari-pyclesperanto-assistant)  
-* [napari-segment-blobs-and-things-with-membranes](https://www.napari-hub.org/plugins/napari-segment-blobs-and-things-with-membranes)
-* [napari-cupy-image-processing](https://www.napari-hub.org/plugins/napari-cupy-image-processing)  
-* [napari-mahotas-image-processing](https://www.napari-hub.org/plugins/napari-mahotas-image-processing)
-
 
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
