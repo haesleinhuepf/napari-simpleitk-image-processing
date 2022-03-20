@@ -14,7 +14,7 @@ Process images using [SimpleITK](https://simpleitk.org/) in [napari]
 ## Usage
 
 Filters, segmentation algorithms and measurements provided by this napari plugin can be found in the `Tools` menu. 
-You can recognize them with their suffix `(nsbatwm)` in brackets.
+You can recognize them with their suffix `(n-SimpleITK)` in brackets.
 Furthermore, it can be used from the [napari-assistant](https://www.napari-hub.org/plugins/napari-assistant) graphical user interface. 
 Therefore, just click the menu `Tools > Utilities > Assistant (na)` or run `naparia` from the command line.
 
