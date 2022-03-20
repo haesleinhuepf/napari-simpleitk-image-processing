@@ -17,8 +17,6 @@ labels:
   - Smoothing
   - Morphological operation
   - Image feature detection
-  - Image projection
-  - Spot detection
   - Semi-automatic segmentation
   - Edge detection
   - Top-hat transform
