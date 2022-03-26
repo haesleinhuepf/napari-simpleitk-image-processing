@@ -800,7 +800,7 @@ def label_statistics(
     """
     import SimpleITK as sitk
     sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
-    sitk_label_image = sitk.GetImageFromArray(label_image)
+    sitk_label_image = sitk.GetImageFromArray(label_image.astype(int))
 
     intensity_stats = sitk.LabelStatisticsImageFilter()
     intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
