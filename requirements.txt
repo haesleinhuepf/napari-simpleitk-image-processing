@@ -3,8 +3,8 @@
 # See also: https://caremad.io/posts/2013/07/setup-vs-requirement/
 
 simpleitk
-napari-tools-menu
+napari-tools-menu>=0.1.11
 napari-time-slicer
-napari-skimage-regionprops
-napari-assistant
+napari-skimage-regionprops>=0.4.0
+napari-assistant>=0.1.7
 -e .
