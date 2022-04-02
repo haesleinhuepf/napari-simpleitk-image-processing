@@ -9,6 +9,7 @@ import numpy as np
 import napari
 from napari_tools_menu import register_function
 from napari_time_slicer import time_slicer
+from napari_skimage_regionprops._all_frames import analyze_all_frames
 
 @curry
 def plugin_function(
@@ -785,7 +786,6 @@ def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = T
 
 
 @register_function(menu="Measurement > Measurements (n-SimpleITK)")
-@time_slicer
 def label_statistics(
         intensity_image: napari.types.ImageData,
         label_image: napari.types.LabelsData,
@@ -881,6 +881,9 @@ def label_statistics(
         add_table(labels_layer, napari_viewer)
     else:
         return results
+
+label_statistics_in_all_frames = analyze_all_frames(label_statistics)
+register_function(label_statistics_in_all_frames, menu="Measurement > Measurements of all frames (n-SimpleITK)")
 
 
 def _append_to_column(dictionary, column_name, value):
