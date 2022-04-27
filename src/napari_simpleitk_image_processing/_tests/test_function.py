@@ -164,10 +164,12 @@ def test_statistics_with_viewer(make_napari_viewer):
     print(result)
 
     for k, v in result.items():
-        assert np.allclose(result[k], reference[k], 0.001)
+        if k != "index":
+            assert np.allclose(result[k], reference[k], 0.001)
 
     for k, v in reference.items():
-        assert np.allclose(result[k], reference[k], 0.001)
+        if k != "index":
+            assert np.allclose(result[k], reference[k], 0.001)
 
 
 def test_statistics_with_viewer_and_dask(make_napari_viewer):
@@ -192,10 +194,12 @@ def test_statistics_with_viewer_and_dask(make_napari_viewer):
     print(result)
 
     for k, v in result.items():
-        assert np.allclose(result[k], reference[k], 0.001)
+        if k != "index":
+            assert np.allclose(result[k], reference[k], 0.001)
 
     for k, v in reference.items():
-        assert np.allclose(result[k], reference[k], 0.001)
+        if k != "index":
+            assert np.allclose(result[k], reference[k], 0.001)
 
 
 def test_napari_api():
