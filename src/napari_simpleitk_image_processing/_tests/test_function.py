@@ -170,6 +170,33 @@ def test_statistics_with_viewer(make_napari_viewer):
         assert np.allclose(result[k], reference[k], 0.001)
 
 
+def test_statistics_with_viewer_and_dask(make_napari_viewer):
+    from napari_simpleitk_image_processing import label_statistics
+    import dask.array as da
+
+    viewer = make_napari_viewer()
+
+    image = da.asarray(np.asarray([
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [4, 4, 4, 4],
+        [5, 5, 0, 0]
+    ]))
+    labels = da.asarray(image.astype(int))
+
+    labels_layer = viewer.add_labels(labels, name="test1")
+
+    label_statistics(image, labels, viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+
+    result = labels_layer.properties
+    print(result)
+
+    for k, v in result.items():
+        assert np.allclose(result[k], reference[k], 0.001)
+
+    for k, v in reference.items():
+        assert np.allclose(result[k], reference[k], 0.001)
+
 
 def test_napari_api():
     from napari_simpleitk_image_processing import napari_experimental_provide_function
