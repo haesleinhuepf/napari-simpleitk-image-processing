@@ -1,12 +1,9 @@
-from enum import Enum
 import numpy as np
 import napari
 from typing import Callable
 from functools import wraps
 from toolz import curry
 import inspect
-import numpy as np
-import napari
 from napari_tools_menu import register_function
 from napari_time_slicer import time_slicer
 from napari_skimage_regionprops._all_frames import analyze_all_frames
@@ -926,8 +923,8 @@ def roundness_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = N
 
 def _relabel(labels, measurements):
     try:
-        import pyclesperanto_prototype as cle;
-        return cle.pull(cle.replace_intensities(labels, numpy.asarray([0] + measurements)))
+        import pyclesperanto_prototype as cle
+        return cle.pull(cle.replace_intensities(labels, np.asarray([0] + measurements)))
     except ImportError:
         return _relabel_numpy(labels, measurements)
 
