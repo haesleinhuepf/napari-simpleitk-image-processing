@@ -786,9 +786,9 @@ def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = T
 def label_statistics(
         intensity_image: napari.types.ImageData,
         label_image: napari.types.LabelsData,
-        napari_viewer: napari.Viewer = None,
         size: bool = True, intensity: bool = True, perimeter: bool = False,
-        shape: bool = False, position: bool = False, moments: bool = False):
+        shape: bool = False, position: bool = False, moments: bool = False,
+        napari_viewer: napari.Viewer = None) -> "pandas.DataFrame":
     """
     See Also
     --------
@@ -877,7 +877,8 @@ def label_statistics(
         from napari_skimage_regionprops import add_table
         add_table(labels_layer, napari_viewer)
     else:
-        return results
+        import pandas
+        return pandas.DataFrame(results)
 
 label_statistics_in_all_frames = analyze_all_frames(label_statistics)
 register_function(label_statistics_in_all_frames, menu="Measurement > Measurements of all frames (n-SimpleITK)")

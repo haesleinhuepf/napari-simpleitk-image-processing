@@ -158,7 +158,7 @@ def test_statistics_with_viewer(make_napari_viewer):
 
     labels_layer = viewer.add_labels(labels, name="test1")
 
-    label_statistics(image, labels, viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+    label_statistics(image, labels, napari_viewer=viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
 
     result = labels_layer.properties
     print(result)
@@ -188,7 +188,7 @@ def test_statistics_with_viewer_and_dask(make_napari_viewer):
 
     labels_layer = viewer.add_labels(labels, name="test1")
 
-    label_statistics(image, labels, viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+    label_statistics(image, labels, napari_viewer=viewer, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
 
     result = labels_layer.properties
     print(result)
