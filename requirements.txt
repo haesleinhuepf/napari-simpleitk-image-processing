@@ -6,6 +6,6 @@ simpleitk
 napari-tools-menu>=0.1.11
 napari-time-slicer
 napari-skimage-regionprops>=0.4.1
-napari-assistant>=0.1.7
+napari-assistant>=0.2.0
 pandas
 -e .
