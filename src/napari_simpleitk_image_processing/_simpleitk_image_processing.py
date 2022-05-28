@@ -7,6 +7,7 @@ import inspect
 from napari_tools_menu import register_function
 from napari_time_slicer import time_slicer
 from napari_skimage_regionprops._all_frames import analyze_all_frames
+from napari_skimage_regionprops import relabel as _relabel
 
 @curry
 def plugin_function(
@@ -894,7 +895,7 @@ def _append_to_column(dictionary, column_name, value):
 @time_slicer
 def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
-    measurement_vector = statistics["number_of_pixels"]
+    measurement_vector = statistics["number_of_pixels"].tolist()
     return _relabel(label_image, measurement_vector)
 
 
@@ -902,7 +903,7 @@ def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer =
 @time_slicer
 def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
-    measurement_vector = statistics["elongation"]
+    measurement_vector = statistics["elongation"].tolist()
     return _relabel(label_image, measurement_vector)
 
 
@@ -910,7 +911,7 @@ def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = 
 @time_slicer
 def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
-    measurement_vector = statistics["feret_diameter"]
+    measurement_vector = statistics["feret_diameter"].tolist()
     return _relabel(label_image, measurement_vector)
 
 
@@ -918,17 +919,5 @@ def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewe
 @time_slicer
 def roundness_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
-    measurement_vector = statistics["roundness"]
+    measurement_vector = statistics["roundness"].tolist()
     return _relabel(label_image, measurement_vector)
-
-
-def _relabel(labels, measurements):
-    try:
-        import pyclesperanto_prototype as cle
-        return cle.pull(cle.replace_intensities(labels, np.asarray([0] + measurements)))
-    except ImportError:
-        return _relabel_numpy(labels, measurements)
-
-
-def _relabel_numpy(image, measurements):
-    return np.take(np.array([0] + measurements), image)

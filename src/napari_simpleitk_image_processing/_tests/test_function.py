@@ -133,7 +133,7 @@ def test_statistics():
     ])
     labels = image
 
-    result = label_statistics(image, labels, None, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+    result = label_statistics(image, labels, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
 
     print(result)
 
