@@ -61,11 +61,17 @@ def plugin_function(
     return worker_function
 
 
-
 @register_function(menu="Filtering / noise removal > Median (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int = 1, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int = 1, radius_z: int = 0) -> napari.types.ImageData:
+    """
+    The median-filter allows removing noise from images. While locally averaging intensity, it
+    is an edge-preserving filter.
+
+    It is equal to a percentile-filter with percentile==50.
+    In case applying the filter takes to much time, consider using a Gaussian blur instead.
+    """
     import SimpleITK as sitk
     return sitk.Median(image, [radius_x, radius_y, radius_z])
 
@@ -73,7 +79,7 @@ def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int
 @register_function(menu="Filtering / noise removal > Gaussian (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_y: float = 1, variance_z: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_y: float = 1, variance_z: float = 0) -> napari.types.ImageData:
     import SimpleITK as sitk
     return sitk.DiscreteGaussian(image, variance=[variance_x, variance_y, variance_z])
 
@@ -317,7 +323,7 @@ def threshold_isodata(image:napari.types.ImageData, viewer: napari.Viewer = None
 @plugin_function
 def threshold_triangle(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
     """
-    Binarize an image according to Otsu's method.
+    Binarize an image according to the Triangle method.
 
     Parameters
     ----------
@@ -456,8 +462,7 @@ def simple_linear_iterative_clustering(image:napari.types.ImageData,
                                        spatial_proximity_weight:float = 10,
                                        grid_size_x:int=50,
                                        grid_size_y:int=50,
-                                       grid_size_z:int=50,
-                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+                                       grid_size_z:int=50) -> napari.types.LabelsData:
     import SimpleITK as sitk
     return sitk.SLIC(image,
                      maximumNumberOfIterations=maximum_number_of_iterations,
@@ -468,8 +473,7 @@ def simple_linear_iterative_clustering(image:napari.types.ImageData,
 @register_function(menu="Segmentation / labeling > Scalar image K-means clustering (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def scalar_image_k_means_clustering(image:napari.types.ImageData,
-                                       viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def scalar_image_k_means_clustering(image:napari.types.ImageData) -> napari.types.LabelsData:
     import SimpleITK as sitk
     return sitk.ScalarImageKmeans(image)
 
@@ -477,7 +481,10 @@ def scalar_image_k_means_clustering(image:napari.types.ImageData,
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def connected_component_labeling(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def connected_component_labeling(binary_image:napari.types.LabelsData) -> napari.types.LabelsData:
+    """
+    Takes a binary image and produces a label image with all separated objects labeled differently.
+    """
     import SimpleITK as sitk
     return sitk.ConnectedComponent(binary_image)
 
@@ -485,13 +492,20 @@ def connected_component_labeling(binary_image:napari.types.LabelsData, viewer: n
 @register_function(menu="Segmentation / labeling > Touching objects labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def touching_objects_labeling(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def touching_objects_labeling(binary_image:napari.types.LabelsData) -> napari.types.LabelsData:
     """
-    Takes a binary image an splits touching objects into multiple similar to the Watershed segmentation in ImageJ.
+    Takes a binary image an splits touching objects into multiple similar to the Watershed segmentation in ImageJ [1].
+
+    This allows cutting connected objects such as not to dense nuclei. If the nuclei are too dense,
+    consider using stardist [2] or cellpose [3].
 
     See also
     --------
-    ..[0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html#Multi-label-Morphology
+    .. [0] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/32_Watersheds_Segmentation.html#Multi-label-Morphology
+    .. [1] https://imagej.nih.gov/ij/docs/menus/process.html#watershed
+    .. [2] https://www.napari-hub.org/plugins/stardist-napari
+    .. [3] https://www.napari-hub.org/plugins/cellpose-napari
+
     """
     import SimpleITK as sitk
     distance_map = sitk.SignedMaurerDistanceMap(binary_image, insideIsPositive=False, squaredDistance=False,
@@ -505,7 +519,7 @@ def touching_objects_labeling(binary_image:napari.types.LabelsData, viewer: napa
 @register_function(menu="Segmentation / labeling > Watershed Otsu labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2, outline_sigma: float = 2, watershed_level:float = 10, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2, outline_sigma: float = 2, watershed_level:float = 10) -> napari.types.LabelsData:
     """
     The two sigma parameters and the level allow tuning the segmentation result. The first sigma controls how close detected cells
     can be (spot_sigma) and the second controls how precise segmented objects are outlined (outline_sigma). Under the
