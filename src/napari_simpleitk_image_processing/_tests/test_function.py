@@ -143,6 +143,7 @@ def test_statistics():
     for k, v in reference.items():
         assert np.allclose(result[k], reference[k], 0.001)
 
+
 def test_statistics_with_viewer(make_napari_viewer):
     from napari_simpleitk_image_processing import label_statistics
 
@@ -205,3 +206,27 @@ def test_statistics_with_viewer_and_dask(make_napari_viewer):
 def test_napari_api():
     from napari_simpleitk_image_processing import napari_experimental_provide_function
     napari_experimental_provide_function()
+
+def test_label_statistics():
+    from napari_simpleitk_image_processing import label_statistics
+
+    image = np.asarray(np.asarray([
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [4, 4, 4, 4],
+        [5, 5, 0, 0]
+    ]))
+    labels = image.astype(int)
+
+    # test all
+    res = label_statistics(image, labels, size=True, intensity=True, perimeter=True, shape=True, position=True, moments=True )
+    assert "perimeter" in res.keys()
+    assert "minimum" in res.keys()
+    # test anything but intensity
+    res = label_statistics(None, labels, size=True, intensity=False, perimeter=True, shape=True, position=True, moments=True)
+    assert "perimeter" in res.keys()
+    assert "minimum" not in res.keys()
+    # test intensity only
+    res = label_statistics(image, labels, size=False, intensity=True, perimeter=False, shape=False, position=False, moments=False)
+    assert "perimeter" not in res.keys()
+    assert "minimum" in res.keys()
