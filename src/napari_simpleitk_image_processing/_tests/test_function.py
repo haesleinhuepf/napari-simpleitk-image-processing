@@ -143,8 +143,7 @@ def test_statistics():
     for k, v in reference.items():
         assert np.allclose(result[k], reference[k], 0.001)
 
-import pytest
-@pytest.mark.skip(reason="Tests with the viewer suddenly break in July 2022 https://github.com/napari/napari/issues/4876")
+
 def test_statistics_with_viewer(make_napari_viewer):
     from napari_simpleitk_image_processing import label_statistics
 
@@ -174,7 +173,6 @@ def test_statistics_with_viewer(make_napari_viewer):
             assert np.allclose(result[k], reference[k], 0.001)
 
 
-@pytest.mark.skip(reason="Tests with the viewer suddenly break in July 2022 https://github.com/napari/napari/issues/4876")
 def test_statistics_with_viewer_and_dask(make_napari_viewer):
     from napari_simpleitk_image_processing import label_statistics
     import dask.array as da
