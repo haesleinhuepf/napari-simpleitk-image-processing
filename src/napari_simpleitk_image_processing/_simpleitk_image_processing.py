@@ -804,18 +804,40 @@ def label_statistics(
         size: bool = True, intensity: bool = True, perimeter: bool = False,
         shape: bool = False, position: bool = False, moments: bool = False,
         napari_viewer: napari.Viewer = None) -> "pandas.DataFrame":
-    """
+    """Measure intensity/shape/... statistics per label
+
+    Parameters
+    ----------
+    intensity_image: ndarray, optional
+        Can be None
+    label_image: ndarray
+        Must be subsequently labeled
+    size: bool, optional
+    intensity: bool, optional
+    perimeter: bool, optional
+    shape: bool, optional
+    position: bool, optional
+    moments: bool, optional
+    napari_viewer: napari.Viewer, optional
+
+    Returns
+    -------
+    pandas DataFrame, in case napari_viewr is None, otherwise the DataFrame will be added to
+    the passed label_image's layer.features
+
+
     See Also
     --------
     ..[0] https://simpleitk.org/doxygen/latest/html/classitk_1_1simple_1_1LabelShapeStatisticsImageFilter
     ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
-    sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
-    sitk_label_image = sitk.GetImageFromArray(label_image.astype(int))
 
-    intensity_stats = sitk.LabelStatisticsImageFilter()
-    intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
+    sitk_label_image = sitk.GetImageFromArray(label_image.astype(int))
+    if intensity:
+        sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
+        intensity_stats = sitk.LabelStatisticsImageFilter()
+        intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
 
     shape_stats = sitk.LabelShapeStatisticsImageFilter()
     shape_stats.SetComputeFeretDiameter(True)
@@ -847,19 +869,15 @@ def label_statistics(
 
         if shape:
             _append_to_column(results, "elongation", shape_stats.GetElongation(l))
-
             _append_to_column(results, "feret_diameter", shape_stats.GetFeretDiameter(l))
             _append_to_column(results, "flatness", shape_stats.GetFlatness(l))
-
             _append_to_column(results, "roundness", shape_stats.GetRoundness(l))
 
         if size:
             for i, value in enumerate(shape_stats.GetEquivalentEllipsoidDiameter(l)):
                 _append_to_column(results, "equivalent_ellipsoid_diameter_" + str(i), value)
-
             _append_to_column(results, "equivalent_spherical_perimeter", shape_stats.GetEquivalentSphericalPerimeter(l))
             _append_to_column(results, "equivalent_spherical_radius", shape_stats.GetEquivalentSphericalRadius(l))
-
             _append_to_column(results, "number_of_pixels", shape_stats.GetNumberOfPixels(l))
             _append_to_column(results, "number_of_pixels_on_border", shape_stats.GetNumberOfPixelsOnBorder(l))
 
