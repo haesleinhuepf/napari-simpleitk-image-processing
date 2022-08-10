@@ -840,9 +840,9 @@ def label_statistics(
         intensity_stats.Execute(sitk_intensity_image, sitk_label_image)
 
     shape_stats = sitk.LabelShapeStatisticsImageFilter()
-    shape_stats.SetComputeFeretDiameter(True)
+    shape_stats.SetComputeFeretDiameter(shape)
     shape_stats.SetComputeOrientedBoundingBox(False)
-    shape_stats.SetComputePerimeter(True)
+    shape_stats.SetComputePerimeter(perimeter)
     shape_stats.Execute(sitk_label_image)
 
     results = {}
