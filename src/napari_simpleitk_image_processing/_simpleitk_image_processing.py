@@ -52,13 +52,14 @@ def plugin_function(
         result = function(*bound.args, **bound.kwargs)
 
         if isinstance(result, sitk.SimpleITK.Image):
-            return sitk.GetArrayFromImage(result)
-        else:
-            return result
+            result = sitk.GetArrayFromImage(result)
+
+        return result
 
     worker_function.__module__ = "napari_simpleitk_image_processing"
 
-    return worker_function
+    from stackview import jupyter_displayable_output
+    return jupyter_displayable_output(worker_function,"n-sitk", "https://www.napari-hub.org/plugins/napari-simpleitk-image-processing")
 
 
 @register_function(menu="Filtering / noise removal > Median (n-SimpleITK)")
