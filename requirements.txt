@@ -3,10 +3,10 @@
 # See also: https://caremad.io/posts/2013/07/setup-vs-requirement/
 
 simpleitk
-napari-tools-menu>=0.1.16
+napari-tools-menu>=0.1.17
 napari-time-slicer
 napari-skimage-regionprops>=0.5.1
 napari-assistant>=0.3.10
 pandas
-stackview
+stackview>=0.3.1
 -e .
