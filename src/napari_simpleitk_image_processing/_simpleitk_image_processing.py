@@ -1,5 +1,5 @@
 import numpy as np
-import napari
+#import napari
 from typing import Callable
 from functools import wraps
 from toolz import curry
@@ -52,19 +52,20 @@ def plugin_function(
         result = function(*bound.args, **bound.kwargs)
 
         if isinstance(result, sitk.SimpleITK.Image):
-            return sitk.GetArrayFromImage(result)
-        else:
-            return result
+            result = sitk.GetArrayFromImage(result)
+
+        return result
 
     worker_function.__module__ = "napari_simpleitk_image_processing"
 
-    return worker_function
+    from stackview import jupyter_displayable_output
+    return jupyter_displayable_output(worker_function,"n-sitk", "https://www.napari-hub.org/plugins/napari-simpleitk-image-processing")
 
 
 @register_function(menu="Filtering / noise removal > Median (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int = 1, radius_z: int = 0) -> napari.types.ImageData:
+def median_filter(image:"napari.types.ImageData", radius_x: int = 1, radius_y: int = 1, radius_z: int = 0) -> "napari.types.ImageData":
     """
     The median-filter allows removing noise from images. While locally averaging intensity, it
     is an edge-preserving filter.
@@ -79,7 +80,7 @@ def median_filter(image:napari.types.ImageData, radius_x: int = 1, radius_y: int
 @register_function(menu="Filtering / noise removal > Gaussian (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_y: float = 1, variance_z: float = 0) -> napari.types.ImageData:
+def gaussian_blur(image:"napari.types.ImageData", variance_x: float = 1, variance_y: float = 1, variance_z: float = 0) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.DiscreteGaussian(image, variance=[variance_x, variance_y, variance_z])
 
@@ -87,7 +88,7 @@ def gaussian_blur(image:napari.types.ImageData, variance_x: float = 1, variance_
 @register_function(menu="Segmentation / binarization > Threshold (Otsu et al 1979, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_otsu(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to Otsu's method.
 
@@ -113,7 +114,7 @@ def threshold_otsu(image:napari.types.ImageData, viewer: napari.Viewer = None) -
 @register_function(menu="Segmentation / binarization > Threshold (Intermodes et al 1979, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_intermodes(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_intermodes(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the Intermodes method.
 
@@ -139,7 +140,7 @@ def threshold_intermodes(image:napari.types.ImageData, viewer: napari.Viewer = N
 @register_function(menu="Segmentation / binarization > Threshold (Kittler and Illingworth 1986, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_kittler_illingworth(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_kittler_illingworth(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the Kittler-Illingworth method.
 
@@ -165,7 +166,7 @@ def threshold_kittler_illingworth(image:napari.types.ImageData, viewer: napari.V
 @register_function(menu="Segmentation / binarization > Threshold (Li et al 1993, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_li(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_li(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to Li's method.
 
@@ -191,7 +192,7 @@ def threshold_li(image:napari.types.ImageData, viewer: napari.Viewer = None) -> 
 @register_function(menu="Segmentation / binarization > Threshold (Moments, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_moments(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_moments(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the Moments method.
 
@@ -217,7 +218,7 @@ def threshold_moments(image:napari.types.ImageData, viewer: napari.Viewer = None
 @register_function(menu="Segmentation / binarization > Threshold (Renyi entropy, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_renyi_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_renyi_entropy(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the Renyi-entropy method.
 
@@ -243,7 +244,7 @@ def threshold_renyi_entropy(image:napari.types.ImageData, viewer: napari.Viewer 
 @register_function(menu="Segmentation / binarization > Threshold (Shanbhag 1994, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_shanbhag(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_shanbhag(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to Shanbhag's method.
 
@@ -269,7 +270,7 @@ def threshold_shanbhag(image:napari.types.ImageData, viewer: napari.Viewer = Non
 @register_function(menu="Segmentation / binarization > Threshold (Yen et al 1995, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_yen(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_yen(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to Yen's method.
 
@@ -295,7 +296,7 @@ def threshold_yen(image:napari.types.ImageData, viewer: napari.Viewer = None) ->
 @register_function(menu="Segmentation / binarization > Threshold (IsoData, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_isodata(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_isodata(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the IsoData method.
 
@@ -321,7 +322,7 @@ def threshold_isodata(image:napari.types.ImageData, viewer: napari.Viewer = None
 @register_function(menu="Segmentation / binarization > Threshold (Triangle, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_triangle(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_triangle(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the Triangle method.
 
@@ -347,7 +348,7 @@ def threshold_triangle(image:napari.types.ImageData, viewer: napari.Viewer = Non
 @register_function(menu="Segmentation / binarization > Threshold (Huang and Wang 1995, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_huang(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_huang(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to the triangle method.
 
@@ -373,7 +374,7 @@ def threshold_huang(image:napari.types.ImageData, viewer: napari.Viewer = None) 
 @register_function(menu="Segmentation / binarization > Threshold (Maximum entropy, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def threshold_maximum_entropy(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def threshold_maximum_entropy(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Binarize an image according to maximum-entropy method.
 
@@ -397,7 +398,7 @@ def threshold_maximum_entropy(image:napari.types.ImageData, viewer: napari.Viewe
 @register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def binary_fill_holes(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def binary_fill_holes(binary_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     import SimpleITK as sitk
     return sitk.BinaryFillhole(binary_image)
 
@@ -405,7 +406,7 @@ def binary_fill_holes(binary_image:napari.types.LabelsData, viewer: napari.Viewe
 @register_function(menu="Measurement > Signed Maurer Distance Map (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def signed_maurer_distance_map(binary_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def signed_maurer_distance_map(binary_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     """
     See also
     --------
@@ -418,7 +419,7 @@ def signed_maurer_distance_map(binary_image:napari.types.LabelsData, viewer: nap
 @register_function(menu="Segmentation / labeling > Morphological watershed (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def morphological_watershed(distance_image:napari.types.ImageData, level:float = 1, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def morphological_watershed(distance_image:"napari.types.ImageData", level:float = 1, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     See also
     --------
@@ -431,7 +432,7 @@ def morphological_watershed(distance_image:napari.types.ImageData, level:float =
 @register_function(menu="Filtering / edge enhancement > Morphological gradient (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def morphological_gradient(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def morphological_gradient(distance_image:"napari.types.ImageData", radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     """
     See also
     --------
@@ -444,7 +445,7 @@ def morphological_gradient(distance_image:napari.types.ImageData, radius_x:int =
 @register_function(menu="Filtering / edge enhancement > Standard deviation filter (noise, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def standard_deviation_filter(distance_image:napari.types.ImageData, radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def standard_deviation_filter(distance_image:"napari.types.ImageData", radius_x:int = 5, radius_y:int = 5, radius_z:int = 5, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     """
     See also
     --------
@@ -457,12 +458,12 @@ def standard_deviation_filter(distance_image:napari.types.ImageData, radius_x:in
 @register_function(menu="Segmentation / labeling > Simple linear iterative clustering (SLIC, n-SimpleITK)")
 @time_slicer
 @plugin_function
-def simple_linear_iterative_clustering(image:napari.types.ImageData,
+def simple_linear_iterative_clustering(image:"napari.types.ImageData",
                                        maximum_number_of_iterations:int = 5,
                                        spatial_proximity_weight:float = 10,
                                        grid_size_x:int=50,
                                        grid_size_y:int=50,
-                                       grid_size_z:int=50) -> napari.types.LabelsData:
+                                       grid_size_z:int=50) -> "napari.types.LabelsData":
     import SimpleITK as sitk
     return sitk.SLIC(image,
                      maximumNumberOfIterations=maximum_number_of_iterations,
@@ -473,7 +474,7 @@ def simple_linear_iterative_clustering(image:napari.types.ImageData,
 @register_function(menu="Segmentation / labeling > Scalar image K-means clustering (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def scalar_image_k_means_clustering(image:napari.types.ImageData) -> napari.types.LabelsData:
+def scalar_image_k_means_clustering(image:"napari.types.ImageData") -> "napari.types.LabelsData":
     import SimpleITK as sitk
     return sitk.ScalarImageKmeans(image)
 
@@ -481,7 +482,7 @@ def scalar_image_k_means_clustering(image:napari.types.ImageData) -> napari.type
 @register_function(menu="Segmentation / labeling > Connected component labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def connected_component_labeling(binary_image:napari.types.LabelsData) -> napari.types.LabelsData:
+def connected_component_labeling(binary_image:"napari.types.LabelsData") -> "napari.types.LabelsData":
     """
     Takes a binary image and produces a label image with all separated objects labeled differently.
     """
@@ -492,7 +493,7 @@ def connected_component_labeling(binary_image:napari.types.LabelsData) -> napari
 @register_function(menu="Segmentation / labeling > Touching objects labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def touching_objects_labeling(binary_image:napari.types.LabelsData) -> napari.types.LabelsData:
+def touching_objects_labeling(binary_image:"napari.types.LabelsData") -> "napari.types.LabelsData":
     """
     Takes a binary image an splits touching objects into multiple similar to the Watershed segmentation in ImageJ [1].
 
@@ -519,7 +520,7 @@ def touching_objects_labeling(binary_image:napari.types.LabelsData) -> napari.ty
 @register_function(menu="Segmentation / labeling > Watershed Otsu labeling (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2, outline_sigma: float = 2, watershed_level:float = 10) -> napari.types.LabelsData:
+def watershed_otsu_labeling(image:"napari.types.ImageData", spot_sigma: float = 2, outline_sigma: float = 2, watershed_level:float = 10) -> "napari.types.LabelsData":
     """
     The two sigma parameters and the level allow tuning the segmentation result. The first sigma controls how close detected cells
     can be (spot_sigma) and the second controls how precise segmented objects are outlined (outline_sigma). Under the
@@ -550,7 +551,7 @@ def watershed_otsu_labeling(image:napari.types.ImageData, spot_sigma: float = 2,
 @register_function(menu="Image math > Invert image (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def invert_intensity(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def invert_intensity(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.InvertIntensity(image)
 
@@ -558,7 +559,7 @@ def invert_intensity(image:napari.types.ImageData, viewer: napari.Viewer = None)
 @register_function(menu="Filtering / noise removal > Bilateral (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def bilateral_filter(image:"napari.types.ImageData", radius: float = 1, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.Bilateral(image, radius)
 
@@ -566,7 +567,7 @@ def bilateral_filter(image:napari.types.ImageData, radius: float = 1, viewer: na
 @register_function(menu="Filtering / edge enhancement > Laplacian (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def laplacian_filter(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.Laplacian(image)
 
@@ -574,7 +575,7 @@ def laplacian_filter(image:napari.types.ImageData, viewer: napari.Viewer = None)
 @register_function(menu="Filtering / edge enhancement > Laplacian of Gaussian (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def laplacian_of_gaussian_filter(image:"napari.types.ImageData", sigma:float = 1, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.LaplacianRecursiveGaussian(image, sigma=sigma)
 
@@ -582,7 +583,7 @@ def laplacian_of_gaussian_filter(image:napari.types.ImageData, sigma:float = 1, 
 @register_function(menu="Filtering / noise removal > Binominal blur (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def binominal_blur_filter(image:"napari.types.ImageData", repetitions:int = 1, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.BinomialBlur(image, repetitions)
 
@@ -590,7 +591,7 @@ def binominal_blur_filter(image:napari.types.ImageData, repetitions:int = 1, vie
 @register_function(menu="Segmentation / binarization > Canny edge detection (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 0, upper_threshold: float = 50, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def canny_edge_detection(image:"napari.types.ImageData", lower_threshold: float = 0, upper_threshold: float = 50, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     import SimpleITK as sitk
     return sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold)
 
@@ -598,7 +599,7 @@ def canny_edge_detection(image:napari.types.ImageData, lower_threshold: float = 
 @register_function(menu="Filtering / edge enhancement > Gradient magnitude (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def gradient_magnitude(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.GradientMagnitude(image)
 
@@ -606,7 +607,7 @@ def gradient_magnitude(image:napari.types.ImageData, viewer: napari.Viewer = Non
 @register_function(menu="Filtering > H-Maxima (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def h_maxima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def h_maxima(image:"napari.types.ImageData", height: float = 10, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.HMaxima(image, height=height)
 
@@ -614,7 +615,7 @@ def h_maxima(image:napari.types.ImageData, height: float = 10, viewer: napari.Vi
 @register_function(menu="Filtering > H-Minima (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def h_minima(image:napari.types.ImageData, height: float = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def h_minima(image:"napari.types.ImageData", height: float = 10, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.HMinima(image, height=height)
 
@@ -622,11 +623,11 @@ def h_minima(image:napari.types.ImageData, height: float = 10, viewer: napari.Vi
 @register_function(menu="Segmentation / binarization > Threshold Otsu, multiple thresholds (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def otsu_multiple_thresholds(image:napari.types.ImageData,
+def otsu_multiple_thresholds(image:"napari.types.ImageData",
                              number_of_thresholds: int = 3,
                              label_offset: int = 0,
                              number_of_histogram_bins: int = 256,
-                             viewer: napari.Viewer = None) -> napari.types.LabelsData:
+                             viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     import SimpleITK as sitk
     return sitk.OtsuMultipleThresholds(image, numberOfThresholds=number_of_thresholds,
                                        labelOffset=label_offset,
@@ -635,7 +636,7 @@ def otsu_multiple_thresholds(image:napari.types.ImageData,
 @register_function(menu="Segmentation / binarization > Regional maxima (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def regional_maxima(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.RegionalMaxima(image)
 
@@ -643,7 +644,7 @@ def regional_maxima(image:napari.types.ImageData, viewer: napari.Viewer = None) 
 @register_function(menu="Segmentation / binarization > Regional minima (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def regional_minima(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.RegionalMinima(image)
 
@@ -651,7 +652,7 @@ def regional_minima(image:napari.types.ImageData, viewer: napari.Viewer = None) 
 @register_function(menu="Filtering / deconvolution > Richardson-Lucy deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, number_of_iterations: int = 10, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def richardson_lucy_deconvolution(image:"napari.types.ImageData", kernel:"napari.types.ImageData", number_of_iterations: int = 10, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.RichardsonLucyDeconvolution(image, kernel, number_of_iterations)
 
@@ -659,7 +660,7 @@ def richardson_lucy_deconvolution(image:napari.types.ImageData, kernel:napari.ty
 @register_function(menu="Filtering / deconvolution > Wiener deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, noise_variance: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def wiener_deconvolution(image:"napari.types.ImageData", kernel:"napari.types.ImageData", noise_variance: float = 0, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.WienerDeconvolution(image, kernel, noise_variance)
 
@@ -667,7 +668,7 @@ def wiener_deconvolution(image:napari.types.ImageData, kernel:napari.types.Image
 @register_function(menu="Filtering / deconvolution > Tikhonov deconvolution (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.ImageData, regularization_constant: float = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def tikhonov_deconvolution(image:"napari.types.ImageData", kernel:"napari.types.ImageData", regularization_constant: float = 0, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.TikhonovDeconvolution(image, kernel, regularization_constant)
 
@@ -675,7 +676,7 @@ def tikhonov_deconvolution(image:napari.types.ImageData, kernel:napari.types.Ima
 @register_function(menu="Filtering > Rescale intensity (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, output_maximum: float = 1, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def rescale_intensity(image:"napari.types.ImageData", output_minimum: float = 0, output_maximum: float = 1, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.RescaleIntensity(image, outputMinimum=output_minimum, outputMaximum=output_maximum)
 
@@ -683,7 +684,7 @@ def rescale_intensity(image:napari.types.ImageData, output_minimum: float = 0, o
 @register_function(menu="Filtering / edge enhancement > Sobel (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def sobel(image:"napari.types.ImageData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.SobelEdgeDetection(image)
 
@@ -691,7 +692,7 @@ def sobel(image:napari.types.ImageData, viewer: napari.Viewer = None) -> napari.
 @register_function(menu="Filtering / background removal > White top-hat (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def white_top_hat(image:"napari.types.ImageData", radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.WhiteTopHat(image, [radius_x, radius_y, radius_z])
 
@@ -699,7 +700,7 @@ def white_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
 @register_function(menu="Filtering / background removal > Black top-hat (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def black_top_hat(image:"napari.types.ImageData", radius_x: int = 10, radius_y: int = 10, radius_z: int = 0, viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     import SimpleITK as sitk
     return sitk.BlackTopHat(image, [radius_x, radius_y, radius_z])
 
@@ -708,13 +709,13 @@ def black_top_hat(image:napari.types.ImageData, radius_x: int = 10, radius_y: in
 @time_slicer
 @plugin_function(convert_input_to_float=True)
 def adaptive_histogram_equalization(
-        image:napari.types.ImageData,
+        image:"napari.types.ImageData",
         alpha:float = 0.3,
         beta:float = 0.3,
         radius_x: int = 5,
         radius_y: int = 5,
         radius_z: int = 5,
-        viewer: napari.Viewer = None) -> napari.types.ImageData:
+        viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     """
     Power Law Adaptive Histogram Equalization.
 
@@ -757,10 +758,10 @@ def adaptive_histogram_equalization(
 @register_function(menu="Filtering / noise removal > Curvature flow (n-SimpleITK)")
 @time_slicer
 @plugin_function(convert_input_to_float=True)
-def curvature_flow_denoise(image:napari.types.ImageData,
+def curvature_flow_denoise(image:"napari.types.ImageData",
         time_step:float = 0.05,
         number_of_iterations:int = 5,
-        viewer: napari.Viewer = None) -> napari.types.ImageData:
+        viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
 
     import SimpleITK as sitk
     cf = sitk.CurvatureFlowImageFilter()
@@ -772,7 +773,7 @@ def curvature_flow_denoise(image:napari.types.ImageData,
 @register_function(menu="Segmentation post-processing > Relabel component (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def relabel_component(label_image:napari.types.LabelsData, minimumObjectSize:int=15, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def relabel_component(label_image:"napari.types.LabelsData", minimumObjectSize:int = 15, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     See Also
     --------
@@ -785,7 +786,7 @@ def relabel_component(label_image:napari.types.LabelsData, minimumObjectSize:int
 @register_function(menu="Segmentation post-processing > Label contour (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = True, viewer: napari.Viewer = None) -> napari.types.LabelsData:
+def label_contour(label_image:"napari.types.LabelsData", fully_connected: bool = True, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     """
     Extract the outline of labels in a label image.
 
@@ -799,11 +800,11 @@ def label_contour(label_image:napari.types.LabelsData, fully_connected: bool = T
 
 @register_function(menu="Measurement > Measurements (n-SimpleITK)")
 def label_statistics(
-        intensity_image: napari.types.ImageData,
-        label_image: napari.types.LabelsData,
+        intensity_image: "napari.types.ImageData",
+        label_image: "napari.types.LabelsData",
         size: bool = True, intensity: bool = True, perimeter: bool = False,
         shape: bool = False, position: bool = False, moments: bool = False,
-        napari_viewer: napari.Viewer = None) -> "pandas.DataFrame":
+        napari_viewer: "napari.Viewer" = None) -> "pandas.DataFrame":
     """Measure intensity/shape/... statistics per label
 
     Parameters
@@ -925,7 +926,7 @@ def _append_to_column(dictionary, column_name, value):
 
 @register_function(menu="Measurement > Pixel count map (n-SimpleITK)")
 @time_slicer
-def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def pixel_count_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
     measurement_vector = statistics["number_of_pixels"].tolist()
     return _relabel(label_image, measurement_vector)
@@ -933,7 +934,7 @@ def pixel_count_map(label_image:napari.types.LabelsData, viewer: napari.Viewer =
 
 @register_function(menu="Measurement > Elongation map (n-SimpleITK)")
 @time_slicer
-def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def elongation_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
     measurement_vector = statistics["elongation"].tolist()
     return _relabel(label_image, measurement_vector)
@@ -941,7 +942,7 @@ def elongation_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = 
 
 @register_function(menu="Measurement > Feret diameter map (n-SimpleITK)")
 @time_slicer
-def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def feret_diameter_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
     measurement_vector = statistics["feret_diameter"].tolist()
     return _relabel(label_image, measurement_vector)
@@ -949,7 +950,7 @@ def feret_diameter_map(label_image:napari.types.LabelsData, viewer: napari.Viewe
 
 @register_function(menu="Measurement > Roundness map (n-SimpleITK)")
 @time_slicer
-def roundness_map(label_image:napari.types.LabelsData, viewer: napari.Viewer = None) -> napari.types.ImageData:
+def roundness_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
     measurement_vector = statistics["roundness"].tolist()
     return _relabel(label_image, measurement_vector)
