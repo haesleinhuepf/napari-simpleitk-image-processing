@@ -8,5 +8,5 @@ napari-time-slicer
 napari-skimage-regionprops>=0.5.1
 napari-assistant>=0.3.10
 pandas
-stackview>=0.3.1
+stackview>=0.3.2
 -e .
