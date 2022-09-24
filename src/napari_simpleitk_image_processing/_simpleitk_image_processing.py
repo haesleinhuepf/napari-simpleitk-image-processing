@@ -917,6 +917,28 @@ def label_statistics(
 label_statistics_in_all_frames = analyze_all_frames(label_statistics)
 register_function(label_statistics_in_all_frames, menu="Measurement > Measurements of all frames (n-SimpleITK)")
 
+try:
+    # morphometrics API
+    from morphometrics.measure import register_measurement_set
+
+    register_measurement_set(
+        label_statistics,
+        name="label statistics (n-SimpleITK)",
+        choices=["intensity", "size", "shape", "perimeter", "position", "moments"],
+        uses_intensity_image=True,
+    )
+
+    from napari_tools_menu import register_dock_widget
+    from morphometrics._gui._qt.measurement_widgets import QtMeasurementWidget
+    register_dock_widget(
+        QtMeasurementWidget,
+        "Measurement > Region properties (morphometrics)"
+    )
+except:
+    pass
+
+
+
 
 def _append_to_column(dictionary, column_name, value):
     if column_name not in dictionary.keys():
