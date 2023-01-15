@@ -933,7 +933,7 @@ try:
     from morphometrics._gui._qt.measurement_widgets import QtMeasurementWidget
     register_dock_widget(
         QtMeasurementWidget,
-        "Measurement > Region properties (morphometrics)"
+        "Measurement tables > Region properties (morphometrics)"
     )
 except:
     pass
