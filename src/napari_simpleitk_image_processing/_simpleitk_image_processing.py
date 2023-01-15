@@ -403,7 +403,7 @@ def binary_fill_holes(binary_image:"napari.types.LabelsData", viewer: "napari.Vi
     return sitk.BinaryFillhole(binary_image)
 
 
-@register_function(menu="Measurement > Signed Maurer Distance Map (n-SimpleITK)")
+@register_function(menu="Measurement maps > Signed Maurer Distance Map (n-SimpleITK)")
 @time_slicer
 @plugin_function
 def signed_maurer_distance_map(binary_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
@@ -798,7 +798,7 @@ def label_contour(label_image:"napari.types.LabelsData", fully_connected: bool =
     return sitk.LabelContour(label_image, fullyConnected=fully_connected, backgroundValue=0)
 
 
-@register_function(menu="Measurement > Measurements (n-SimpleITK)")
+@register_function(menu="Measurement tables > Measurements (n-SimpleITK)")
 def label_statistics(
         intensity_image: "napari.types.ImageData",
         label_image: "napari.types.LabelsData",
@@ -833,8 +833,9 @@ def label_statistics(
     ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
+    import numpy as np
 
-    sitk_label_image = sitk.GetImageFromArray(label_image.astype(int))
+    sitk_label_image = sitk.GetImageFromArray(np.asarray(label_image).astype(int))
     if intensity:
         sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
         intensity_stats = sitk.LabelStatisticsImageFilter()
@@ -915,7 +916,7 @@ def label_statistics(
         return pandas.DataFrame(results)
 
 label_statistics_in_all_frames = analyze_all_frames(label_statistics)
-register_function(label_statistics_in_all_frames, menu="Measurement > Measurements of all frames (n-SimpleITK)")
+register_function(label_statistics_in_all_frames, menu="Measurement tables > Measurements of all frames (n-SimpleITK)")
 
 try:
     # morphometrics API
@@ -932,7 +933,7 @@ try:
     from morphometrics._gui._qt.measurement_widgets import QtMeasurementWidget
     register_dock_widget(
         QtMeasurementWidget,
-        "Measurement > Region properties (morphometrics)"
+        "Measurement tables > Region properties (morphometrics)"
     )
 except:
     pass
@@ -946,7 +947,7 @@ def _append_to_column(dictionary, column_name, value):
     dictionary[column_name].append(value)
 
 
-@register_function(menu="Measurement > Pixel count map (n-SimpleITK)")
+@register_function(menu="Measurement maps > Pixel count map (n-SimpleITK)")
 @time_slicer
 def pixel_count_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=True, intensity=False)
@@ -954,7 +955,7 @@ def pixel_count_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewe
     return _relabel(label_image, measurement_vector)
 
 
-@register_function(menu="Measurement > Elongation map (n-SimpleITK)")
+@register_function(menu="Measurement maps > Elongation map (n-SimpleITK)")
 @time_slicer
 def elongation_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
@@ -962,7 +963,7 @@ def elongation_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer
     return _relabel(label_image, measurement_vector)
 
 
-@register_function(menu="Measurement > Feret diameter map (n-SimpleITK)")
+@register_function(menu="Measurement maps > Feret diameter map (n-SimpleITK)")
 @time_slicer
 def feret_diameter_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
@@ -970,7 +971,7 @@ def feret_diameter_map(label_image:"napari.types.LabelsData", viewer: "napari.Vi
     return _relabel(label_image, measurement_vector)
 
 
-@register_function(menu="Measurement > Roundness map (n-SimpleITK)")
+@register_function(menu="Measurement maps > Roundness map (n-SimpleITK)")
 @time_slicer
 def roundness_map(label_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.ImageData":
     statistics = label_statistics(intensity_image=label_image, label_image=label_image,size=False, intensity=False, shape=True)
