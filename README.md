@@ -58,7 +58,7 @@ Takes a binary image and labels all objects with individual numbers to produce a
 
 ### Measurements
 
-This function allows determining intensity and shape statistics from labeled images.
+This function allows determining intensity and shape statistics from labeled images. I can be found in the `Tools > Measurement tables` menu.
 
 ![img.png](https://github.com/haesleinhuepf/napari-simpleitk-image-processing/raw/main/docs/measurements.png)
 
