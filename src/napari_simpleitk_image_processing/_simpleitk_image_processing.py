@@ -833,8 +833,9 @@ def label_statistics(
     ..[1] http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/Python_html/35_Segmentation_Shape_Analysis.html
     """
     import SimpleITK as sitk
+    import numpy as np
 
-    sitk_label_image = sitk.GetImageFromArray(label_image.astype(int))
+    sitk_label_image = sitk.GetImageFromArray(np.asarray(label_image).astype(int))
     if intensity:
         sitk_intensity_image = sitk.GetImageFromArray(intensity_image)
         intensity_stats = sitk.LabelStatisticsImageFilter()
