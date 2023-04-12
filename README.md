@@ -124,7 +124,7 @@ If you have never used `conda` before, please go through [this tutorial](https:/
 
 ## Features
 
-The user can select categories of features for feature extraction in the user interface. These categories contain measurements from [SimpleITK](https://simpleitk.org/):
+The user can select categories of features for feature extraction in the user interface. These categories contain the following measurements:
 * size:
     * equivalent_ellipsoid_diameter
     * equivalent_spherical_perimeter
