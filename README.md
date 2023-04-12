@@ -122,6 +122,39 @@ If you have never used `conda` before, please go through [this tutorial](https:/
     conda install -c conda-forge napari
     pip install napari-simpleitk-image-processing
 
+## Features
+
+The user can select categories of features for feature extraction in the user interface. These categories contain measurements from [SimpleITK](https://simpleitk.org/):
+* size:
+    * equivalent_ellipsoid_diameter
+    * equivalent_spherical_perimeter
+    * equivalent_spherical_radius
+    * number_of_pixels
+    * number_of_pixels_on_border
+* intensity:
+   * maximum 
+   * mean 
+   * median
+   * minimum 
+   * sigma
+   * sum
+   * variance
+* perimeter:
+   * perimeter
+   * perimeter_on_border
+   * perimeter_on_border_ratio
+* shape:
+   * elongation
+   * feret_diameter
+   * flatness
+   * roundness
+* position:
+   * centroid 
+   * bbox
+* moments:
+   * principal_axes
+   * principal_moments
+
 ## See also
 
 There are other napari plugins with similar functionality for processing images and extracting features:
