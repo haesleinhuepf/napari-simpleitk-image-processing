@@ -398,9 +398,70 @@ def threshold_maximum_entropy(image:"napari.types.ImageData", viewer: "napari.Vi
 @register_function(menu="Segmentation post-processing > Binary fill holes (n-SimpleITK)")
 @time_slicer
 @plugin_function
-def binary_fill_holes(binary_image:"napari.types.LabelsData", viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
+def binary_fill_holes(binary_image:"napari.types.LabelsData", slice_wise:bool = False, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     import SimpleITK as sitk
-    return sitk.BinaryFillhole(binary_image)
+    operator = sitk.BinaryFillhole
+    if slice_wise:
+        """
+        The following decorator slice_by_slice_decorator is from:
+        ..[0] https://simpleitk.readthedocs.io/en/master/link_SliceBySliceDecorator_docs.html
+        """
+        import itertools
+        from functools import wraps
+        def slice_by_slice_decorator(func):
+            """
+            A function decorator which executes func on each 3D sub-volume and
+            *in-place* pastes the results into the input image. The input image type
+            and the output image type are required to be the same type.
+
+            :param func: A function which take a SimpleITK Image as it's first
+            argument and returns an Image as results.
+
+            :return: A decorated function.
+            """
+
+            iter_dim = 2
+
+            @wraps(func)
+            def slice_by_slice(image, *args, **kwargs):
+
+                dim = image.GetDimension()
+
+                if dim <= iter_dim:
+                    #
+                    image = func(image, *args, **kwargs)
+                    return image
+
+                extract_size = list(image.GetSize())
+                extract_size[iter_dim:] = itertools.repeat(0, dim - iter_dim)
+
+                extract_index = [0] * dim
+                paste_idx = [slice(None, None)] * dim
+
+                extractor = sitk.ExtractImageFilter()
+                extractor.SetSize(extract_size)
+
+                for high_idx in itertools.product(
+                    *[range(s) for s in image.GetSize()[iter_dim:]]
+                ):
+
+                    # The lower 2 elements of extract_index are always 0.
+                    # The remaining indices are iterated through all indexes.
+                    extract_index[iter_dim:] = high_idx
+                    extractor.SetIndex(extract_index)
+
+                    # Sliced based indexing for setting image values internally uses
+                    # the PasteImageFilter executed "in place".  The lower 2 elements
+                    # are equivalent to ":". For a less general case the assignment
+                    # could be written as image[:,:,z] = ...
+                    paste_idx[iter_dim:] = high_idx
+                    image[paste_idx] = func(extractor.Execute(image), *args, **kwargs)
+
+                return image
+
+            return slice_by_slice
+        operator = slice_by_slice_decorator(sitk.BinaryFillhole)
+    return operator(binary_image)
 
 
 @register_function(menu="Measurement maps > Signed Maurer Distance Map (n-SimpleITK)")
