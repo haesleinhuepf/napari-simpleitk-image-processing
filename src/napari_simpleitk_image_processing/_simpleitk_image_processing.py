@@ -513,7 +513,7 @@ def touching_objects_labeling(binary_image:"napari.types.LabelsData") -> "napari
                                                 useImageSpacing=False)
 
     ws = sitk.MorphologicalWatershed(distance_map, markWatershedLine=False, level=1)
-    labels = sitk.Mask(ws, sitk.Cast(binary_image, ws.GetPixelID()))
+    labels = sitk.Mask(ws, sitk.Cast(binary_image, sitk.sitkUInt8))
     return labels
 
 
@@ -543,7 +543,7 @@ def watershed_otsu_labeling(image:"napari.types.ImageData", spot_sigma: float = 
     binary_otsu = sitk.OtsuThreshold(blurred_outline, 0, 1)
 
     ws = sitk.MorphologicalWatershed(blurred_spots, markWatershedLine=False, level=watershed_level)
-    labels = sitk.Mask(ws, sitk.Cast(binary_otsu, ws.GetPixelID()))
+    labels = sitk.Mask(ws, sitk.Cast(binary_otsu, sitk.sitkUInt8))
 
     return labels
 
