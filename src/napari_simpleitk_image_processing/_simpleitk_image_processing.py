@@ -36,7 +36,8 @@ def plugin_function(
             if isinstance(value, np.ndarray):
                 np_value = value
             elif 'pyclesperanto_prototype._tier0._pycl.OCLArray' in str(type(value)) or \
-                'dask.array.core.Array' in str(type(value)):
+                'dask.array.core.Array' in str(type(value)) or \
+                'pyclesperanto._pyclesperanto._Array' in str(type(value)):
                 # compatibility with pyclesperanto and dask
                 np_value = np.asarray(value)
 
