@@ -17,6 +17,7 @@ def list_bia_bob_plugins():
     except:
         pass
 
+    basic_hints = ""
     if not good_alternative_installed:
         basic_hints = """
         
@@ -86,6 +87,7 @@ def list_bia_bob_plugins():
     nsitk is a Python library that processes images using SimpleITK.
     When you use it, you always start by importing the library: `import napari_simpleitk_image_processing as nsitk`.
     When asked for how to use nsitk, you can adapt one of the following code snippets:
+    
     {basic_hints}
     {advanced_hints}
     """
