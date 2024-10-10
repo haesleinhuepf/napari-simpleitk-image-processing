@@ -594,7 +594,7 @@ def binominal_blur_filter(image:"napari.types.ImageData", repetitions:int = 1, v
 @plugin_function(convert_input_to_float=True)
 def canny_edge_detection(image:"napari.types.ImageData", lower_threshold: float = 0, upper_threshold: float = 50, viewer: "napari.Viewer" = None) -> "napari.types.LabelsData":
     import SimpleITK as sitk
-    return sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold)
+    return sitk.Cast(sitk.CannyEdgeDetection(image, lower_threshold, upper_threshold), sitk.sitkUInt8)
 
 
 @register_function(menu="Filtering / edge enhancement > Gradient magnitude (n-SimpleITK)")
