@@ -122,6 +122,8 @@ If you have never used `conda` before, please go through [this tutorial](https:/
     conda install -c conda-forge napari
     pip install napari-simpleitk-image-processing
 
+Note: This plugin is not compatible with napari 0.6.0 or later.
+
 ## Features
 
 The user can select categories of features for feature extraction in the user interface. These categories contain the following measurements:
